@@ -9,7 +9,9 @@ export interface IProductItem {
 
 export interface IProductList {
     items: IProductItem[],
-    total: number
+    total: number,
+    addProduct(card: IProductItem): void,
+    getProduct(cardId: string): IProductItem
 }
 
 export interface IUser {
@@ -22,7 +24,6 @@ export interface IUser {
 export interface IBasketData {
     addProduct(items: IProductItem): void;
     deleteProduct(items: IProductItem): void;
-    getAllProducts(items: IProductItem[]): void;
     checkBasketValidation(id: string): boolean;
     getTotalPrice(): number;
     getProductsCounter(): number;
