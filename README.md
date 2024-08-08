@@ -141,8 +141,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 В классе есть следующие методы:
 - addProduct(items: IProductItem): void; - добавить товар в корзину.
 - deleteProduct(items: IProductItem): void; - удалить товар из корзины.
-- getAllProducts(items: IProductItem[]): void; - получить массив товаров.
-- checkBasketValidation(id: string): boolean; 
+- checkBasketValidation(id: string): boolean; - проверить есть ли товар с id уже в корзине
 - getTotalPrice(): number; - получить общую стоимость товаров.
 - getProductsCounter(): number; - получить общее количество товаров в корзине.
 - clearBasket(): void; - очистить корзину.
@@ -164,6 +163,16 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean - проверяет на валидность адрес доставки
 - а также сеттеры и геттеры для сохранения и получения данных из полей класса
 
+#### Класс ProductList
+Класс отвечает за хранение и логику работы с каталогом товаров на странице.\
+В классе есть следующие поля:
+- items: IProductItem[] - массив карточек товаров
+- total: number - количество карточек товаров
+
+В классе есть следующие методы:
+- addProduct(card: IProductItem): void - добавить карточку товара
+- getProduct(cardId: string): IProductItem - получить карточку товара.
+
 ### Классы представления
 Все классы представления отвечают за отображение внутри контейнера (DOM-элементов) передаваемых в них данных.
 
@@ -178,10 +187,24 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Методы:
 - setData(productData: IProductItem): void - заполняет атрибуты карточки товара данными
 - render(): HTMLElement - возвращает заполненную карточку товара
-- open(): void - открытие модального окна карточки
-- close(): void- закрытие модального окна
 
-#### Класс ModalBasket
+#### Класс Page
+Отвечает за отображение контента на главной странице.
+Поля класса:
+- 
+
+Методы:
+- 
+
+#### Класс Modal
+Отвечает за работу с модальными окнами. Представляет методы `open` и `close` для управления отображением модального окна.
+
+Поля класса:
+- 
+- events: IEvents - брокер событий
+
+
+#### Класс Basket
 Отвечает за отображение корзины товаров.
 Поля класса:
 - button: HTMLButtonElement - кнопка открытия корзины
@@ -189,28 +212,12 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Методы:
 - 
 
-#### Класс ModalWithAddress
-Отвечает за отображение информации о пользователе на странице. В модальном окне можно выбрать способ оплаты и внести информацию об адресе.
-В классе устанавливаются слушатели на все интерактивные элементы.
-
-Поля класса:
-- submitButton: <HTMLElement> - кнопка 'Далее'
-- _form: <HTMLElement> - элемент формы
-- formName: string - значение атрибута name формы
-- input: <HTMLElement> - поле ввода формы
-- errors: Record<string, HTMLElement> - хранит все элементы для вывода ошибок
-
-Методы:
-- setValid(isValid: boolean): void - изменяет активность кнопки 'Далее'
-- getInputValue(): Record<string> - возвращает объект с данными из полей формы
-- setInputValue(data: Record<string>): void - принимает объект с данными для заполнения полей формы
-
-#### Класс ModalWithContacts
+#### Класс Contacts
 Отвечает за отображение информации о пользователе на странице. В модальном окне можно внести информацию об электронной почте и номере телефона покупателя.
 В классе устанавливаются слушатели на все интерактивные элементы.
 
 Поля класса:
-- submitButton: <HTMLElement> - кнопка 'Оплатить'
+- submitButton: <HTMLElement> - кнопка 
 - _form: <HTMLElement> - элемент формы
 - formName: string - значение атрибута name формы
 - inputs: NodeListOf<HTMLElement> - все поля ввода формы
@@ -226,8 +233,8 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Поля класса:
 - button: HTMLButtonElement - кнопка 'За новыми покупками',при нажатии которой происходит событие
 
-Методы:
-- close(): void - закрытие модального окна после успешной оплаты
+
+
 
 ### Слой коммуникации
 
