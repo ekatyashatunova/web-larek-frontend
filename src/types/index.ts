@@ -9,7 +9,10 @@ export interface IProductItem {
 
 export interface IProductList {
     items: IProductItem[],
-    total: number,
+    total: number
+}
+
+export interface ICatalog {
     addProduct(card: IProductItem): void,
     getProduct(cardId: string): IProductItem
 }
@@ -39,3 +42,4 @@ export interface IUserData {
 export type TUserOrder = Pick<IUser, 'payment' | 'addres'>;
 export type TUserContacts = Pick<IUser, 'email' | 'phone'>;
 export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
+
