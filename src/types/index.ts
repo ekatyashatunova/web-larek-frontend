@@ -13,8 +13,8 @@ export interface IProductList {
 }
 
 export interface ICatalog {
-    addProduct(card: IProductItem): void,
-    getProduct(cardId: string): IProductItem
+    setProduct(items: IProductItem[]): void,
+    getProduct(): IProductList
 }
 
 export interface IUser {
