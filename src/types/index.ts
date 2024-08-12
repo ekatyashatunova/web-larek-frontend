@@ -14,7 +14,7 @@ export interface IProductList {
 
 export interface ICatalog {
     setProduct(items: IProductItem[]): void,
-    getProduct(): IProductList
+    getProduct(): IProductItem[]
 }
 
 export interface IUser {
@@ -25,8 +25,9 @@ export interface IUser {
 }
 
 export interface IBasketData {
-    addProduct(items: IProductItem): void;
-    deleteProduct(items: IProductItem): void;
+    getAllProducts(): IProductItem[],
+    addProduct(product: IProductItem): void;
+    deleteProduct(product: IProductItem): void;
     checkBasketValidation(id: string): boolean;
     getTotalPrice(): number;
     getProductsCounter(): number;
