@@ -25,6 +25,7 @@ export interface IUser {
 }
 
 export interface IBasketData {
+    products: IProductItem[],
     getAllProducts(): IProductItem[],
     addProduct(product: IProductItem): void;
     deleteProduct(product: IProductItem): void;
