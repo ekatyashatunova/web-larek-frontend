@@ -144,7 +144,6 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - getTotalPrice(): number; - получить общую стоимость товаров.
 - getProductsCounter(): number; - получить общее количество товаров в корзине.
 - clearBasket(): void; - очистить корзину.
-- а также сеттеры и геттеры для получения и сохранения данных.
 
 #### Класс UserData
 Класс отвечает за хранение и логику работы с данными покупателя.
@@ -159,8 +158,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 В классе есть следующие методы:
 - getUserOrder(): TUserOrder - возвращает данные покупателя
 - setUserOrder(userData: IUser): void - сохраняет данные покупателя
-- checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean - проверяет на валидность адрес доставки
-- а также сеттеры и геттеры для сохранения и получения данных из полей класса
+- checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean - проверяет на валидность адрес доставки.
 
 #### Класс Catalog
 Класс отвечает за хранение и логику работы с каталогом товаров на странице.
@@ -187,7 +185,6 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
  - events: IEvents - брокер событий
 
 Методы:
-- getData(): IProductItem - получаем карточку товара
 - setData(productData: IProductItem): void - заполняет атрибуты карточки товара данными
 
 #### Класс Page
@@ -202,7 +199,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 
 Методы:
 - open(): void - открытие модального окна карточки товара
-- open(): void - открытие модального окна корзины
+- click(): void - открытие модального окна корзины
 - setProduct(item: IProductItem): void - устанавливает карточку товара
 
 #### Класс Modal
@@ -225,14 +222,13 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 В классе устанавливаются слушатели на все интерактивные элементы.
 
 Поля класса:
-- basketList: <HTMLBasketListElement> - список товаров в корзине
-- basketItem: <HTMLElement> - товар в корзине
+- basketItems: <HTMLElement> - товары в корзине
 - basketPrice: <HTMLElement> - стоимость товаров в корзине
-- buttonDelete: <HTMLButtonElement> - кнопка удаления товара из корзины
+- buttonsDelete: <HTMLButtonElement> - кнопки удаления товара из корзины
 - button: <HTMLButtonElement> - кнопка оформления заказа
 
 Методы:
-- click(): void - обработчик события кнопки 'Оформить'
+- open() - открывает попап формы данных пользователя (кнопка 'Оформить')
 - click(): void - обработчик события кнопки удаления
 - setBasketItem(card: IProductItem): void - устанавливаем карточку товара
 - getBasketPrice(): number - получаем общую стоимость товаров в корзине
@@ -256,26 +252,18 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - get form: <HTMLElement> - геттер для получения элемента формы
 
 #### Класс PaymentForm
-Дочерний класс. Отвечает за отображение информации о пользователе на странице. В модальном окне можно выбрать способ оплаты и внести информацию об адресе.   
+Расширяет класс Form. Отвечает за отображение информации о пользователе на странице. В модальном окне можно выбрать способ оплаты и внести информацию об адресе.   
 В классе устанавливаются слушатели на все интерактивные элементы.
 
 Поля класса:
-- submitButton: <HTMLElement> - кнопка подтвержения
 - paymentButtons: NodeOfList<HTMLButtonElement> - кнопка способа оплаты
 
 Методы:
-- handleSubmit - обрабатывает событие отправки формы
 - click() - выбираем способ оплаты кликом
 
 #### Класс ContactsForm
-Дочерний класс. Отвечает за отображение информации о пользователе на странице. В модальном окне можно внести информацию об электронной почте и номере телефона покупателя.
+Расширяет класс Form. Отвечает за отображение информации о пользователе на странице. В модальном окне можно внести информацию об электронной почте и номере телефона покупателя.
 В классе устанавливаются слушатели на все интерактивные элементы.
-
-Поля класса:
-- submitButton: <HTMLElement> - кнопка подтвержения
-
-Методы:
-- handleSubmit - обрабатывает событие отправки формы
 
 #### Класс SuccessPay
 Отвечает за отображение модального окна в случае успешной покупки.
