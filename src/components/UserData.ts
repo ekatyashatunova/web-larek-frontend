@@ -5,8 +5,8 @@ import {IEvents} from './base/events';
 export class UserData implements IUserData {
     protected payment: string;
     protected email: string;
-    protected addres: string;
-    protected phone: number ;
+    protected address: string;
+    protected phone: string ;
     protected events: IEvents 
 
     constructor(events: IEvents) {
@@ -14,22 +14,27 @@ export class UserData implements IUserData {
     }
 
     getUserData(): IUser {
-        return {payment: this.payment, email: this.email, addres: this.addres, phone: this.phone, }
+        return {payment: this.payment, email: this.email, address: this.address, phone: this.phone, }
     }
 
     setUserData(userData: IUser) {
         this.email = userData.email;
-        this.addres = userData.addres;
+        this.address = userData.address;
         this.phone = userData.phone;
         this.events.emit('user:changed');
     }
 
     checkValidationOrder(data: Record<keyof TUserOrder, string>) {
+        const isValidAddress = data.address.includes('');
+        if (!isValidAddress) {
+            this.events.emit('inValidAddress');
+            return false
+        }
+            return true
+        }
+
 
     }
 
-    checkValidationContacts(data: Record<keyof TUserContacts, string>) {
 
-    }
-}
 
