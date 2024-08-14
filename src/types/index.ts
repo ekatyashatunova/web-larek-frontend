@@ -20,12 +20,11 @@ export interface ICatalog {
 export interface IUser {
     payment: string,
     email: string,
-    addres: string,
-    phone: number
+    address: string,
+    phone: string
 }
 
 export interface IBasketData {
-    products: IProductItem[],
     getAllProducts(): IProductItem[],
     addProduct(product: IProductItem): void;
     deleteProduct(product: IProductItem): void;
@@ -41,7 +40,7 @@ export interface IUserData {
     checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean;
 }
 
-export type TUserOrder = Pick<IUser, 'payment' | 'addres'>;
+export type TUserOrder = Pick<IUser, 'payment' | 'address'>;
 export type TUserContacts = Pick<IUser, 'email' | 'phone'>;
 export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 
