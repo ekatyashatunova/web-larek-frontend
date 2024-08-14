@@ -1,8 +1,8 @@
 import {IBasketData, IProductItem} from '../types/index';
 import { IEvents } from './base/events';
 
-export class BasketData implements IBasketData {
-    protected products: IProductItem[];
+/*export class BasketData implements IBasketData {
+    protected _products: IProductItem[];
     protected events: IEvents;
 
     constructor(events: IEvents) {
@@ -10,7 +10,7 @@ export class BasketData implements IBasketData {
     }
 
     getAllProducts() {
-        return this.products;
+        return this._products;
     }
 
     addProduct(product: IProductItem): void {
@@ -22,16 +22,17 @@ export class BasketData implements IBasketData {
     }
 
     checkBasketValidation(id: string): boolean {
-       return this.products.some((product) => product.id === id) 
+       return this._products.some((product) => product.id === id) 
     }
 
     getTotalPrice(): number {
         
     }
     getProductsCounter(): number {
+        return this._products.length
         
     }
     clearBasket(): void {
-        
+        this._products = []
     }
-}
+}*/
