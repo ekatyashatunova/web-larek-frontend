@@ -1,4 +1,4 @@
-import {IBasketData, IProductItem} from '../types/index';
+/*import {IBasketData, IProductItem} from '../types/index';*/
 import { IEvents } from './base/events';
 
 /*export class BasketData implements IBasketData {
@@ -9,7 +9,7 @@ import { IEvents } from './base/events';
         this.events = events;
     }
 
-    getAllProducts() {
+    getAllProducts(): IProductItem[] {
         return this._products;
     }
 
@@ -18,6 +18,7 @@ import { IEvents } from './base/events';
     }
 
     deleteProduct(product: IProductItem): void {
+        this._products = this._products.filter((item) => item.id === product.id)
         
     }
 
