@@ -24,7 +24,7 @@ export class UserData implements IUserData {
         this.events.emit('user:changed');
     }
 
-    checkValidationOrder(data: Record<keyof TUserOrder, string>) {
+    checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean {
         const isValidAddress = data.address.includes('');
         if (!isValidAddress) {
             this.events.emit('inValidAddress');
