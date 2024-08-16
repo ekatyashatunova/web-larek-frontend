@@ -1,6 +1,7 @@
-/*import {IBasketData, IProductItem} from '../types/index';*/
+import {IBasketData, IProductItem, IProductList} from '../types/index'
 import { IEvents } from './base/events';
 
+//Модель данных товаров с корзиной
 /*export class BasketData implements IBasketData {
     protected _products: IProductItem[];
     protected events: IEvents;
@@ -27,7 +28,8 @@ import { IEvents } from './base/events';
     }
 
     getTotalPrice(): number {
-        
+        return this._products.reduce((sum, item) => sum + item.price * item.id, 0);
+    
     }
     getProductsCounter(): number {
         return this._products.length
