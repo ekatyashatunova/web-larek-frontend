@@ -2,23 +2,21 @@ import {ICatalog, IProductItem} from '../types/index';
 import {IEvents} from '../components/base/events';
 
 
-
+//Модель данных каталога товаров
 export class Catalog implements ICatalog {
-    protected _items: IProductItem[];
+    protected products: IProductItem[];
     protected events: IEvents;
 
     constructor(events: IEvents) {
         this.events = events;
     }
     
-    setProduct(products: IProductItem[]): void {
-        this._items = products
+    setProduct(items: IProductItem[]): void {
+        this.products =  items
     }
 
     getProduct(): IProductItem[] {
-        return this._items 
+        return this.products
     }
-
-
 }
 
