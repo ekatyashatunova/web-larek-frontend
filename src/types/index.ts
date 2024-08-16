@@ -21,7 +21,7 @@ export interface IUser {
     payment: string,
     email: string,
     address: string,
-    phone: string
+    phone: string,
 }
 
 export interface IBasketData {
@@ -43,4 +43,12 @@ export interface IUserData {
 export type TUserOrder = Pick<IUser, 'payment' | 'address'>;
 export type TUserContacts = Pick<IUser, 'email' | 'phone'>;
 export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
+
+export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
+
+export interface IApi {
+    baseUrl: string;
+    get<T>(uri: string): Promise<T>;
+    post<T>(uri: string, data: object, method: ApiPostMethods): Promise<T>;
+}
 
