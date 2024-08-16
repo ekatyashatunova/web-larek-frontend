@@ -1,7 +1,7 @@
 import {IUser, IUserData, TUserOrder, TUserContacts} from '../types/index';
 import {IEvents} from './base/events';
 
-
+//Модель данных покупателя
 export class UserData implements IUserData {
     protected payment: string;
     protected email: string;
@@ -14,7 +14,7 @@ export class UserData implements IUserData {
     }
 
     getUserData(): IUser {
-        return {payment: this.payment, email: this.email, address: this.address, phone: this.phone, }
+        return {payment: this.payment, email: this.email, address: this.address, phone: this.phone}
     }
 
     setUserData(userData: IUser) {
@@ -32,8 +32,6 @@ export class UserData implements IUserData {
         }
             return true
         }
-
-
     }
 
 
