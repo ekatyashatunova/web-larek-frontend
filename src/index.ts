@@ -1,3 +1,4 @@
+import { IProductItem } from './types/index';
 
 import './scss/styles.scss';
 import {EventEmitter, IEvents} from '../src/components/base/events';
@@ -8,7 +9,7 @@ import { IApi } from './types';
 import { Api} from './components/base/api';
 import {API_URL,settings} from './utils/constants';
 import {AppApi} from './components/base/AppApi';
-import {IProductItem} from './types/index';
+import {ProductCard} from './components/ProductCard';
 
 
 const events: IEvents = new EventEmitter();
@@ -25,6 +26,7 @@ userData.setUserData(testUserData);
 console.log(userData.getUserData());
 console.log(userData.checkValidationOrder(testUserData))*/
 
+const cardTemplate: HTMLTemplateElement = document.querySelector('.card-catalog');
 
 const baseApi: IApi = new Api(API_URL, settings);
 const api = new AppApi(baseApi)
@@ -119,17 +121,27 @@ const catalog = new Catalog(events);
             ]
         }
 
-catalog.setProduct(testCatalog.items);
+/*catalog.setProduct(testCatalog.items);
 console.log(catalog.getProduct())
 console.log(catalog.setProduct(testCatalog.items))*/
 
- Promise.all([api.getUser(), api.getProducts()])
- .then(([userInfo, productCards]) => {
-    userData.setUserData(userInfo);
-    catalog.setProduct(productCards)
- })
+ Promise.all([api.getProducts()])
+ .then((productsCard) => {
+    catalog.setProduct(productsCard)
+})
  .catch((err) => {
     console.error(err)
  })
 
- 
+ const testCard = {
+    "id": "854cef69-976d-4c2a-a18c-2aa45046c390",
+    "description": "Если планируете решать задачи в тренажёре, берите два.",
+    "image": "/5_Dots.svg",
+    "title": "+1 час в сутках",
+    "category": "софт-скил",
+    "price": 750
+}
+ const testSection = document.querySelector('.gallery')
+ const card = new ProductCard(cardTemplate, events);
+ card.setData(testCard);
+ testSection.append(card.render())
