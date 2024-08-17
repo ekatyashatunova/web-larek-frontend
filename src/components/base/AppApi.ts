@@ -7,9 +7,9 @@ export class AppApi {
         this._baseApi = baseApi;
     }
 
-    getUser(): Promise<IUser> {
+    /*getUser(): Promise<IUser> {
         return this._baseApi.get<IUser>(`/order`).then((user: IUser) => user)
-    }
+    }*/
 
     getProducts(): Promise<IProductItem[]> {
         return this._baseApi.get<IProductItem[]>(`/product`).then((products: IProductItem[]) => products)
