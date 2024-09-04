@@ -2,7 +2,7 @@ import {IBasketData, IProductItem, IProductList} from '../types/index'
 import { IEvents } from './base/events';
 
 //Модель данных товаров с корзиной
-/*export class BasketData implements IBasketData {
+export class BasketData implements IBasketData {
     protected _products: IProductItem[];
     protected events: IEvents;
 
@@ -14,11 +14,12 @@ import { IEvents } from './base/events';
         return this._products;
     }
 
-    addProduct(product: IProductItem): void {
-        
+    addProduct(product: IProductItem) {
+        this._products = [...this._products, product]
+        this.events.emit('basket:changed')   
     }
 
-    deleteProduct(product: IProductItem): void {
+    deleteProduct(product: IProductItem) {
         this._products = this._products.filter((item) => item.id === product.id)
         
     }
@@ -28,14 +29,14 @@ import { IEvents } from './base/events';
     }
 
     getTotalPrice(): number {
-        return this._products.reduce((sum, item) => sum + item.price * item.id, 0);
+        return this._products.reduce((sum, item) => sum + item.price, 0);
     
     }
-    getProductsCounter(): number {
+    getProductsCounter() {
         return this._products.length
         
     }
     clearBasket(): void {
         this._products = []
     }
-}*/
+}
