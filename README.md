@@ -284,6 +284,11 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 #### Класс AppApi
 Принимает в конструктор экземпляр класса Api и предоставляет методы реализации с бэкендом сервиса.
 
+Методы:
+- getProducts(): Promise<IProductItem[]>  - ответ с сервера с массивом карточек
+- setUserInfo(data: IUserData): Promise<IUser> -
+- setProducts(cards: IProductItem[]): Promise<IProductItem[]> -
+
 ## Взаимодействие компонентов
 Код, описывающий взаимодействие представления и данных между собой находится в файле `index.ts`, выполняющем роль презентера.
 Взаимодействие осуществляется за счёт событий генерируемых с помощью брокера событий, описанных в `index.ts`.
