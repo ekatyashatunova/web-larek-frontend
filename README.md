@@ -305,6 +305,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - `basket__item-delete:delete` - удалить товар из корзины
 - `basket__list:add` - добавить товар в корзину
 - `basket__button:open` - при нажатии на кнопку 'Оформить' открывается форма с данными пользователя
+- `basket:changed`
 - `order__buttons:select` - выбрать способ оплаты
 - `address:input` - изменение данных в форме с данными пользователя
 - `order:validation` - событие, сообщающее о необходимости валидации формы с данными пользователя
