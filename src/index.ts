@@ -10,9 +10,11 @@ import { Api} from './components/base/api';
 import {API_URL,settings} from './utils/constants';
 import {AppApi} from './components/base/AppApi';
 import {ProductCard} from './components/ProductCard';
+import { cloneTemplate } from './utils/utils';
 
 
-const events: IEvents = new EventEmitter();
+
+const events = new EventEmitter();
 const userData = new UserData(events);
 
 /*const testUserData = {
@@ -125,8 +127,12 @@ const catalog = new Catalog(events);
 console.log(catalog.getProduct())
 console.log(catalog.setProduct(testCatalog.items))*/
 
+events.onAll((event) => {
+    console.log(event.eventName, event.data)
+})
+
  Promise.all([api.getProducts()])
- .then((productsCard) => {
+ .then(([productsCard]) => {
     catalog.setProduct(productsCard)
 })
  .catch((err) => {
@@ -143,5 +149,5 @@ console.log(catalog.setProduct(testCatalog.items))*/
 }
  const testSection = document.querySelector('.gallery')
  const card = new ProductCard(cardTemplate, events);
- card.setData(testCard);
- testSection.append(card.render())
+ card.render(testCard);
+ //testSection.append(render(testCard))
