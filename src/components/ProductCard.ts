@@ -1,6 +1,7 @@
-import { cloneTemplate} from "../utils/utils";
-import { IEvents } from "./base/events";
-import {IProductItem} from '../types'
+import {cloneTemplate} from "../utils/utils";
+import {IEvents } from "./base/events";
+import {IProductItem} from '../types';
+import {CDN_URL} from "../utils/constants";
 
 export class ProductCard {
     protected element: HTMLElement;
@@ -11,7 +12,9 @@ export class ProductCard {
     protected cardPrice: HTMLElement;
     protected cardDescription: HTMLElement;
     protected cardId: string;
-    protected cardButton: HTMLButtonElement;
+    protected deleteButton: HTMLButtonElement;
+    protected cardBasketButton: HTMLButtonElement;
+    //protected cardButton: HTMLButtonElement;//
 
     constructor(template: HTMLTemplateElement, events: IEvents) {
         this.events = events;
@@ -22,11 +25,21 @@ export class ProductCard {
         this.cardImage = this.element.querySelector('.card__image');
         this.cardPrice = this.element.querySelector('.card__price');
         this.cardDescription = this.element.querySelector('.card__text');
-        this.cardButton = this.element.querySelector('.gallery__item');
+       // this.deleteButton = this.element.querySelector('.basket__item-delete');
+       // this.cardBasketButton = this.element.querySelector('.button.card__button');
 
-        this.cardButton.addEventListener('click', () => {
-            this.events.emit('gallery__item:open', {card: this})
-        })
+       // this.deleteButton.addEventListener('click', () => {
+           // this.events.emit('basket__item-delete:delete', {card: this})  
+       // })
+
+       // this.cardBasketButton.addEventListener('click', (event) => {
+            //this.events.emit('basket__list:add', {card: this})   
+       // })
+       // this.cardButton = this.element.querySelector('.card');//
+
+        //*this.cardButton.addEventListener('click', () => {
+            //this.events.emit('card:open', {card: this})
+       // }//
     }
 
     render(productData: Partial<IProductItem>) {
@@ -43,17 +56,20 @@ set category(category: string) {
 }
 
 set title(title: string) {
-    this.cardTitle.textContent = title;
+    if (this.cardTitle) {
+    this.cardTitle.textContent = title;}
 }
 
 set description(description: string) {
-    if (description) {
+    if (this.cardDescription) {
         this.cardDescription.textContent = description;
-    } 
+    }
 }
 
 set image(image: string) {
-    this.cardImage.src = image;
+    if (this.cardImage) {
+        this.cardImage.src = CDN_URL + image;
+    }
 }
 
 set price(price: number | null) {
