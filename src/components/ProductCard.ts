@@ -29,30 +29,40 @@ export class ProductCard {
         })
     }
 
-    setData(productData: IProductItem) {
-        if (this.cardCategory) {
-        this.cardCategory.textContent = productData.category;
-    }
-        this.cardTitle.textContent = productData.title;
-
-        if(this.cardDescription){
-            this.cardDescription.textContent = productData.description;
-        }
-
-        if(this.cardPrice === null) {
-            this.cardPrice.textContent = 'Бесценно' 
-        } else {
-            this.cardPrice.textContent = productData.toString() + 'синапсов'
-        }
-
-        if(this.cardImage){
-            this.cardImage.src = productData.image;
-      }
+    render(productData: Partial<IProductItem>) {
+        const {title, image, ...otherCardData} = productData;
+        Object.assign(this, otherCardData);
+        return this.element
      }
+     
+     set id(id) {
+    this.cardId = id
+}
+set category(category: string) {
+    this.cardCategory.textContent = category;
+}
 
-     render() {
-        return this.element 
-    }
+set title(title: string) {
+    this.cardTitle.textContent = title;
+}
+
+set description(description: string) {
+    if (description) {
+        this.cardDescription.textContent = description;
+    } 
+}
+
+set image(image: string) {
+    this.cardImage.src = image;
+}
+
+set price(price: number | null) {
+    price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' 
+}
+
+     get id() {
+        return this.cardId
+     }
 }     
     
 
