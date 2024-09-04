@@ -10,7 +10,6 @@ import { Api} from './components/base/api';
 import {API_URL,settings} from './utils/constants';
 import {AppApi} from './components/base/AppApi';
 import {ProductCard} from './components/ProductCard';
-import { cloneTemplate } from './utils/utils';
 
 
 
@@ -28,13 +27,15 @@ userData.setUserData(testUserData);
 console.log(userData.getUserData());
 console.log(userData.checkValidationOrder(testUserData))*/
 
-const cardTemplate: HTMLTemplateElement = document.querySelector('.card-catalog');
+const cardTemplate: HTMLTemplateElement = document.querySelector('#card-catalog');
 
 const baseApi: IApi = new Api(API_URL, settings);
 const api = new AppApi(baseApi)
 
 
 /*const basketData = new BasketData(events);*/
+
+
 const catalog = new Catalog(events);
 
 /*const testCatalog = 
@@ -140,14 +141,14 @@ events.onAll((event) => {
  })
 
  const testCard = {
-    "id": "854cef69-976d-4c2a-a18c-2aa45046c390",
-    "description": "Если планируете решать задачи в тренажёре, берите два.",
-    "image": "/5_Dots.svg",
-    "title": "+1 час в сутках",
-    "category": "софт-скил",
-    "price": 750
+   "id": "c101ab44-ed99-4a54-990d-47aa2bb4e7d9",
+                    "description": "Лизните этот леденец, чтобы мгновенно запоминать и узнавать любой цветовой код CSS.",
+                    "image": "/Shell.svg",
+                    "title": "HEX-леденец",
+                    "category": "другое",
+                    "price": 1450
 }
  const testSection = document.querySelector('.gallery')
  const card = new ProductCard(cardTemplate, events);
- card.render(testCard);
- //testSection.append(render(testCard))
+ card.render(testCard)
+ testSection.append(card.render(testCard))
