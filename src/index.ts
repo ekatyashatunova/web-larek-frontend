@@ -3,13 +3,14 @@ import { IProductItem } from './types/index';
 import './scss/styles.scss';
 import {EventEmitter, IEvents} from '../src/components/base/events';
 import {UserData} from './components/UserData';
-/*import {BasketData} from './components/BasketData';*/
+import {BasketData} from './components/BasketData';
 import {Catalog} from './components/Catalog';
 import { IApi } from './types';
 import { Api} from './components/base/api';
 import {API_URL,settings} from './utils/constants';
 import {AppApi} from './components/base/AppApi';
 import {ProductCard} from './components/ProductCard';
+import {Page, IPage} from './components/Page';
 
 
 
@@ -33,7 +34,11 @@ const baseApi: IApi = new Api(API_URL, settings);
 const api = new AppApi(baseApi)
 
 
-/*const basketData = new BasketData(events);*/
+const basketData = new BasketData(events);
+
+basketData.getAllProducts();
+
+const catalogCards = new Page(document.querySelector('.gallery'), events)
 
 
 const catalog = new Catalog(events);
@@ -124,7 +129,7 @@ const catalog = new Catalog(events);
             ]
         }
 
-/*catalog.setProduct(testCatalog.items);
+catalog.setProduct(testCatalog.items);
 console.log(catalog.getProduct())
 console.log(catalog.setProduct(testCatalog.items))*/
 
@@ -140,15 +145,39 @@ events.onAll((event) => {
     console.error(err)
  })
 
- const testCard = {
-   "id": "c101ab44-ed99-4a54-990d-47aa2bb4e7d9",
-                    "description": "Лизните этот леденец, чтобы мгновенно запоминать и узнавать любой цветовой код CSS.",
-                    "image": "/Shell.svg",
-                    "title": "HEX-леденец",
-                    "category": "другое",
-                    "price": 1450
-}
- const testSection = document.querySelector('.gallery')
+ /*Promise.all([api.postOrder])
+ .then(([productsCard]) => {
+    catalog.setProduct(productsCard)
+})
+ .catch((err) => {
+    console.error(err)
+ })*/
+
+const testCard = [
+    {
+        "id": "854cef69-976d-4c2a-a18c-2aa45046c390",
+        "description": "Если планируете решать задачи в тренажёре, берите два.",
+        "image": "/5_Dots.svg",
+        "title": "+1 час в сутках",
+        "category": "софт-скил",
+        "price": 750
+    },
+    {
+        "id": "c101ab44-ed99-4a54-990d-47aa2bb4e7d9",
+        "description": "Лизните этот леденец, чтобы мгновенно запоминать и узнавать любой цветовой код CSS.",
+        "image": "/Shell.svg",
+        "title": "HEX-леденец",
+        "category": "другое",
+        "price": 1450
+    },
+]
+
+ /*const testSection = document.querySelector('.gallery')*/
  const card = new ProductCard(cardTemplate, events);
- card.render(testCard)
- testSection.append(card.render(testCard))
+ const card1 = new ProductCard(cardTemplate, events);
+ const cardArray = []
+ cardArray.push(card.render(testCard[1]))
+ cardArray.push(card1.render(testCard[2]))
+/* card.render(testCard)
+ testSection.append(card.render(testCard))*/
+ catalogCards.render(cardsCatalog:cardArray)
