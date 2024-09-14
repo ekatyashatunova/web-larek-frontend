@@ -15,12 +15,14 @@ export class Page extends Component<IPage> {
         super(container);
         this.events = events;
 
-        this.buttonBasket = this.container.querySelector('.header__basket');
-        this._counterBasket = this.container.querySelector('.header__basket-counter');
+        this.buttonBasket = document.querySelector('.header__basket');
+        this._counterBasket = this.container.querySelector('.basket__price');
 
-        this.buttonBasket.addEventListener('click', () => {
-            this.events.emit('header__basket:open');
+        
+       this.buttonBasket.addEventListener('click', () => {
+            this.events.emit('basket:open');
         })
+    
     }
 
     set cardsCatalog(items: HTMLElement[]) {
