@@ -10,7 +10,8 @@ import { Api} from './components/base/api';
 import {API_URL,settings} from './utils/constants';
 import {AppApi} from './components/base/AppApi';
 import {ProductCard} from './components/ProductCard';
-import {Page, IPage} from './components/Page';
+import {Page} from './components/Page';
+import { cloneTemplate } from './utils/utils';
 
 
 
@@ -38,7 +39,7 @@ const basketData = new BasketData(events);
 
 basketData.getAllProducts();
 
-const catalogCards = new Page(document.querySelector('.gallery'), events)
+
 
 
 const catalog = new Catalog(events);
@@ -170,14 +171,25 @@ const testCard = [
         "category": "другое",
         "price": 1450
     },
+    {
+        "id": "412bcf81-7e75-4e70-bdb9-d3c73c9803b7",
+        "description": "Откройте эти куки, чтобы узнать, какой фреймворк вы должны изучить дальше.",
+        "image": "/Soft_Flower.svg",
+        "title": "Фреймворк куки судьбы",
+        "category": "дополнительное",
+        "price": 2500
+    },
 ]
 
  /*const testSection = document.querySelector('.gallery')*/
- const card = new ProductCard(cardTemplate, events);
- const card1 = new ProductCard(cardTemplate, events);
- const cardArray = []
- cardArray.push(card.render(testCard[1]))
- cardArray.push(card1.render(testCard[2]))
+ const catalogCards = new Page(document.querySelector('.gallery'), events)
+ const card = new ProductCard(cloneTemplate(cardTemplate), events);
+ const card1 = new ProductCard(cloneTemplate(cardTemplate), events);
+ const card2 = new ProductCard(cloneTemplate(cardTemplate), events);
+ const cardArray = [];
+ cardArray.push(card.render(testCard[0]));
+ cardArray.push(card1.render(testCard[1]));
+ cardArray.push(card2.render(testCard[2]));
 /* card.render(testCard)
  testSection.append(card.render(testCard))*/
- catalogCards.render(cardsCatalog:cardArray)
+ catalogCards.render({cardsCatalog:cardArray})
