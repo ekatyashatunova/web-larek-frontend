@@ -231,7 +231,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 
 Методы:
 - open() - открывает попап формы данных пользователя (кнопка 'Оформить')
-- click(): void - обработчик события кнопки удаления
+- click(): void - обработчик события кнопки удаления товара
 - setBasketItem(card: IProductItem): void - устанавливаем карточку товара
 - getBasketPrice(): number - получаем общую стоимость товаров в корзине
 
@@ -285,9 +285,9 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Принимает в конструктор экземпляр класса Api и предоставляет методы реализации с бэкендом сервиса.
 
 Методы:
-- getProducts(): Promise<IProductItem[]>  - ответ с сервера с массивом карточек
-- setUserInfo(data: IUserData): Promise<IUser> -
-- setProducts(cards: IProductItem[]): Promise<IProductItem[]> -
+- getProducts(): Promise<IProductItem[]>  - ответ с сервера с массивом карточек, получаем массив карточек
+- setUserInfo(data: IUserData): Promise<IUser> - 
+- setProducts(cards: IProductItem[]): Promise<IProductItem[]> - 
 
 ## Взаимодействие компонентов
 Код, описывающий взаимодействие представления и данных между собой находится в файле `index.ts`, выполняющем роль презентера.
