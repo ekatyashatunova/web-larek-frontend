@@ -5,7 +5,6 @@ import {CDN_URL} from "../utils/constants";
 import {Component} from "./base/Component";
 
 export class ProductCard extends Component<IProductItem>{
-    protected events: IEvents;
     protected cardCategory: HTMLElement;
     protected cardTitle: HTMLElement;
     protected cardImage: HTMLImageElement;
@@ -14,9 +13,8 @@ export class ProductCard extends Component<IProductItem>{
     protected cardId: string;
     protected deleteButton: HTMLButtonElement;
     protected cardBasketButton: HTMLButtonElement;
-    //protected cardButton: HTMLButtonElement;//
 
-    constructor(protected container: HTMLTemplateElement, events: IEvents) {
+    constructor(protected container: HTMLElement, protected events: IEvents) {
         super(container);
         this.events = events;
 
@@ -25,26 +23,26 @@ export class ProductCard extends Component<IProductItem>{
         this.cardImage = this.container.querySelector('.card__image');
         this.cardPrice = this.container.querySelector('.card__price');
         this.cardDescription = this.container.querySelector('.card__text');
-       // this.deleteButton = this.element.querySelector('.basket__item-delete');
-       // this.cardBasketButton = this.element.querySelector('.button.card__button');
+        //this.deleteButton = document.querySelector('.basket__item-delete');
+        /*this.cardBasketButton = document.querySelector('.button.card__button');*/
 
-       // this.deleteButton.addEventListener('click', () => {
-           // this.events.emit('basket__item-delete:delete', {card: this})  
-       // })
-
-       // this.cardBasketButton.addEventListener('click', (event) => {
-            //this.events.emit('basket__list:add', {card: this})   
-       // })
-       // this.cardButton = this.element.querySelector('.card');//
-
-        //*this.cardButton.addEventListener('click', () => {
-            //this.events.emit('card:open', {card: this})
-       // }//
+        /*this.deleteButton.addEventListener('click', () => {
+            this.events.emit('basket__item-delete:delete', {card: this})
+        })
+        
+        /*this.cardBasketButton.addEventListener('click', () => {
+            this.events.emit('basket__list:add', {card: this})
+        })*/
+        
+        this.container.addEventListener('click', () => {
+            this.events.emit('card:open', {card: this})
+        })
     }
 
     render(productData: Partial<IProductItem>| undefined) {
         const {...otherCardData} = productData;
         Object.assign(this, otherCardData);
+        /*return super.render(otherCardData)*/
         return this.container
      }
 
@@ -53,7 +51,9 @@ export class ProductCard extends Component<IProductItem>{
     }
 
     set category(category: string) {
+        if (this.cardCategory) {   
     this.cardCategory.textContent = category;
+        }
 }
 
 set title(title: string) {
