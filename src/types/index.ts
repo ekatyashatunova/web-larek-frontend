@@ -52,3 +52,17 @@ export interface IApi {
     post<T>(uri: string, data: object, method: ApiPostMethods): Promise<T>;
 }
 
+export interface IOrderData {
+    payment: string,
+    email: string,
+    address: string,
+    phone: string,
+    total: number,
+    items: string[]
+}
+
+export interface IResponseOrder {
+    total: number,
+    id: string
+}
+
