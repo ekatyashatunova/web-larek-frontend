@@ -2,9 +2,9 @@ import {cloneTemplate} from "../utils/utils";
 import {IEvents } from "./base/events";
 import {IProductItem} from '../types';
 import {CDN_URL} from "../utils/constants";
+import {Component} from "./base/Component";
 
-export class ProductCard {
-    protected element: HTMLElement;
+export class ProductCard extends Component<IProductItem>{
     protected events: IEvents;
     protected cardCategory: HTMLElement;
     protected cardTitle: HTMLElement;
@@ -16,15 +16,15 @@ export class ProductCard {
     protected cardBasketButton: HTMLButtonElement;
     //protected cardButton: HTMLButtonElement;//
 
-    constructor(template: HTMLTemplateElement, events: IEvents) {
+    constructor(protected container: HTMLTemplateElement, events: IEvents) {
+        super(container);
         this.events = events;
-        this.element = cloneTemplate(template);
 
-        this.cardCategory = this.element.querySelector('.card__category');
-        this.cardTitle = this.element.querySelector('.card__title');
-        this.cardImage = this.element.querySelector('.card__image');
-        this.cardPrice = this.element.querySelector('.card__price');
-        this.cardDescription = this.element.querySelector('.card__text');
+        this.cardCategory = this.container.querySelector('.card__category');
+        this.cardTitle = this.container.querySelector('.card__title');
+        this.cardImage = this.container.querySelector('.card__image');
+        this.cardPrice = this.container.querySelector('.card__price');
+        this.cardDescription = this.container.querySelector('.card__text');
        // this.deleteButton = this.element.querySelector('.basket__item-delete');
        // this.cardBasketButton = this.element.querySelector('.button.card__button');
 
@@ -42,22 +42,24 @@ export class ProductCard {
        // }//
     }
 
-    render(productData: Partial<IProductItem>) {
-        const {title, image, ...otherCardData} = productData;
+    render(productData: Partial<IProductItem>| undefined) {
+        const {...otherCardData} = productData;
         Object.assign(this, otherCardData);
-        return this.element
+        return this.container
      }
-     
+
      set id(id) {
-    this.cardId = id
-}
-set category(category: string) {
+        this.cardId = id
+    }
+
+    set category(category: string) {
     this.cardCategory.textContent = category;
 }
 
 set title(title: string) {
     if (this.cardTitle) {
-    this.cardTitle.textContent = title;}
+        this.cardTitle.textContent = title;
+    }
 }
 
 set description(description: string) {
@@ -73,7 +75,9 @@ set image(image: string) {
 }
 
 set price(price: number | null) {
-    price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' 
+    
+
+    /*price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' */
 }
 
      get id() {
