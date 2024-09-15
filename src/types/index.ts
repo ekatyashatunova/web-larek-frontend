@@ -14,7 +14,8 @@ export interface IProductList {
 
 export interface ICatalog {
     setProduct(items: IProductItem[]): void,
-    getProduct(): IProductItem[]
+    getProducts(): IProductItem[];
+    getProduct(productId: string): void
 }
 
 export interface IUser {
