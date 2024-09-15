@@ -10,6 +10,12 @@ export class BasketData implements IBasketData {
         this.events = events;
     }
 
+    set products(products:IProductItem[]) {
+        this._products = products;
+        this.events.emit('basket:changed')
+    }   
+
+
     getAllProducts(): IProductItem[] {
         return this._products;
     }
@@ -20,8 +26,8 @@ export class BasketData implements IBasketData {
     }
 
     deleteProduct(product: IProductItem) {
-        this._products = this._products.filter((item) => item.id === product.id)
-        
+        this._products = this._products.filter((item) => item.id === product.id);
+        this.events.emit('basket:changed') 
     }
 
     checkBasketValidation(id: string): boolean {
