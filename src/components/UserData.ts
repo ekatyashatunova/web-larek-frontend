@@ -18,6 +18,7 @@ export class UserData implements IUserData {
     }
 
     setUserData(userData: IUser) {
+        this.payment = userData.payment;
         this.email = userData.email;
         this.address = userData.address;
         this.phone = userData.phone;
