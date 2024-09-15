@@ -13,6 +13,7 @@ import {ProductCard} from './components/ProductCard';
 import {Page} from './components/Page';
 import { cloneTemplate } from './utils/utils';
 import { Basket } from './components/Basket';
+import { Modal } from './components/Modal';
 
 
 
@@ -20,29 +21,28 @@ const events = new EventEmitter();
 const userData = new UserData(events);
 
 const testUserData = {
-    "payment": "cash",
+    "payment": "credit",
     "email": "test@test.ru",
     "phone": "+71234567890",
     "address": "Spb Vosstania 1"
 }
 
-/*userData.getUserData();*/
-console.log(userData.setUserData(testUserData));
-console.log(userData.checkValidationOrder(testUserData))
+userData.setUserOrder(testUserData);
+console.log(userData.getUserOrder());
+/*console.log(userData.checkValidationOrder(testUserData))*/
 
 const cardTemplate: HTMLTemplateElement = document.querySelector('#card-catalog');
 
 const baseApi: IApi = new Api(API_URL, settings);
 const api = new AppApi(baseApi)
 
-
 const basketData = new BasketData(events);
 
-basketData.getAllProducts();
+/*console.log(basketData.getTotalPrice());*/
+
 
 
 const catalog = new Catalog(events);
-
 
 const basketTemplate: HTMLTemplateElement = document.querySelector('#basket');
 const basket = new Basket(cloneTemplate(basketTemplate), events);
@@ -197,3 +197,35 @@ const testCard = [
 	});
 
 	catalogCards.render({cardsCatalog:cardArray}) })*/
+
+
+const modal = new Modal(document.querySelector('#modal__container'), events);    
+//Клик по кнопке корзина на главной странице
+   /* events.on('basket:open', () => {
+      
+    })*/
+
+//Клик по карточке товара
+/*events.on('card:open', ((data: {card: ProductCard}) => {
+    const { card } = data;
+    const productCardModal = catalog.getProduct(card.id);   
+    const cardModal = new ProductCard(cloneTemplate(cardTemplate), events);
+
+    modal.render({
+        modal: cardModal.render(productCardModal)
+    });
+}))*/
+
+//Клик по кнопке "Купить"
+
+
+//Клик по кнопке "Оформить"
+
+
+//Удалить товар из корзины
+
+
+//Клип по кнопке "Далее" в форме с данными покупателя
+
+
+//Клик по кнопке "Оплатить" в форме с данными покупателя
