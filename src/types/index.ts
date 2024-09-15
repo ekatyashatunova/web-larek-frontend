@@ -4,7 +4,8 @@ export interface IProductItem {
     category: string,
     title: string,
     description: string,
-    price: number | null
+    price: number | null,
+    /*locked?: boolean*/
 }
 
 export interface IProductList {
@@ -36,9 +37,9 @@ export interface IBasketData {
 }
 
 export interface IUserData {
-    getUserData(): IUser; 
-    setUserData(userData: IUser): void;
-    checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean;
+    getUserOrder(): TUserOrder; 
+    setUserOrder(userData: IUser): void;
+    /*checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean;*/
 }
 
 export type TUserOrder = Pick<IUser, 'payment' | 'address'>;
