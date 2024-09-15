@@ -21,11 +21,21 @@ export class Catalog implements ICatalog {
         return this.products
     }
 
-    getProduct(productId: string) {
-        return this.products.find((data) => data.id === productId)
+    getProduct(cardId: string) {
+        return this.products.map((data) => data.id === cardId)
     }
 
-   
+    set preview(cardId: string | null) {
+        if (!cardId) {
+            this._preview = null;
+            return;
+        }
+        const selectedCard = this.getProduct(cardId);
+        if (selectedCard) {
+            this._preview = cardId;
+            this.events.emit('card:selected')
+        }
+    }
 
     get preview() {
         return this._preview
