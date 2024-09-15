@@ -2,7 +2,7 @@ import { Component } from "./base/Component";
 import { IEvents } from "./base/events";
 
 interface IBasket {
-    items: HTMLElement[],
+    products: HTMLElement[],
     total: number
 }
 
@@ -26,16 +26,16 @@ export class Basket extends Component<IBasket> {
         })
 }
 
-set items(items: HTMLElement[]) {
-    if (items.length) {
-        this.basketList.replaceChildren(...items);
+set products(products: HTMLElement[]) {
+    if (products.length) {
+        this.basketList.replaceChildren(...products);
         this.orderButton.disabled = false
     } else {
         this.orderButton.disabled = true
     }
 }
 
-set total(total: number) {
-    this.(this._total, total.toString() + ' синапсов');
-}
+/*set total(total: number) {
+    this.setText(this._total, total.toString() + ' синапсов');
+}*/
 }
