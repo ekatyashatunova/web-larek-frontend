@@ -4,6 +4,7 @@ import {IProductItem} from '../types';
 import {CDN_URL} from "../utils/constants";
 import {Component} from "./base/Component";
 
+//Класс представления карточки товара
 export class ProductCard extends Component<IProductItem>{
     protected cardCategory: HTMLElement;
     protected cardTitle: HTMLElement;
@@ -43,7 +44,6 @@ export class ProductCard extends Component<IProductItem>{
     render(productData: Partial<IProductItem>| undefined) {
         const {...otherCardData} = productData;
         Object.assign(this, otherCardData);
-        /*return super.render(otherCardData)*/
         return this.container
      }
 
