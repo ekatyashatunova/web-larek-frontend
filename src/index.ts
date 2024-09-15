@@ -12,22 +12,23 @@ import {AppApi} from './components/base/AppApi';
 import {ProductCard} from './components/ProductCard';
 import {Page} from './components/Page';
 import { cloneTemplate } from './utils/utils';
+import { Basket } from './components/Basket';
 
 
 
 const events = new EventEmitter();
 const userData = new UserData(events);
 
-/*const testUserData = {
+const testUserData = {
     "payment": "cash",
     "email": "test@test.ru",
     "phone": "+71234567890",
     "address": "Spb Vosstania 1"
 }
 
-userData.setUserData(testUserData);
-console.log(userData.getUserData());
-console.log(userData.checkValidationOrder(testUserData))*/
+/*userData.getUserData();*/
+console.log(userData.setUserData(testUserData));
+console.log(userData.checkValidationOrder(testUserData))
 
 const cardTemplate: HTMLTemplateElement = document.querySelector('#card-catalog');
 
@@ -40,10 +41,12 @@ const basketData = new BasketData(events);
 basketData.getAllProducts();
 
 
-
-
 const catalog = new Catalog(events);
 
+
+const basketTemplate: HTMLTemplateElement = document.querySelector('#basket');
+const basket = new Basket(cloneTemplate(basketTemplate), events);
+/*basket.render({products: })*/
 /*const testCatalog = 
     {
             "items": [
@@ -140,19 +143,12 @@ events.onAll((event) => {
 
  Promise.all([api.getProducts()])
  .then(([productsCard]) => {
-    catalog.setProduct(productsCard)
+    catalog.setProduct(productsCard);
+    events.emit('productsCard:loaded');
 })
  .catch((err) => {
     console.error(err)
  })
-
- /*Promise.all([api.postOrder])
- .then(([productsCard]) => {
-    catalog.setProduct(productsCard)
-})
- .catch((err) => {
-    console.error(err)
- })*/
 
 const testCard = [
     {
@@ -182,7 +178,7 @@ const testCard = [
 ]
 
  /*const testSection = document.querySelector('.gallery')*/
- const catalogCards = new Page(document.querySelector('.gallery'), events)
+ const catalogCards = new Page(document.querySelector('.gallery'), events);
  const card = new ProductCard(cloneTemplate(cardTemplate), events);
  const card1 = new ProductCard(cloneTemplate(cardTemplate), events);
  const card2 = new ProductCard(cloneTemplate(cardTemplate), events);
@@ -193,3 +189,11 @@ const testCard = [
 /* card.render(testCard)
  testSection.append(card.render(testCard))*/
  catalogCards.render({cardsCatalog:cardArray})
+
+ /*events.on('productsCard:loaded', () => {
+	const cardArray = catalog..map((product) => {
+		const cardInstant = new ProductCard(cloneTemplate(cardTemplate), events);
+		return cardInstant.render(product);
+	});
+
+	catalogCards.render({cardsCatalog:cardArray}) })*/
