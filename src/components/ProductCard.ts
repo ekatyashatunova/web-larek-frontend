@@ -24,15 +24,16 @@ export class ProductCard extends Component<IProductItem>{
         this.cardPrice = this.container.querySelector('.card__price');
         this.cardDescription = this.container.querySelector('.card__text');
         //this.deleteButton = document.querySelector('.basket__item-delete');
-        /*this.cardBasketButton = document.querySelector('.button.card__button');*/
+        this.cardBasketButton = document.querySelector('.button.card__button');
 
         /*this.deleteButton.addEventListener('click', () => {
             this.events.emit('basket__item-delete:delete', {card: this})
-        })
-        
-        /*this.cardBasketButton.addEventListener('click', () => {
-            this.events.emit('basket__list:add', {card: this})
         })*/
+        if (this.cardBasketButton) {
+        this.cardBasketButton.addEventListener('click', () => {
+            this.events.emit('basket__list:add', {card: this})
+        })
+        }
         
         this.container.addEventListener('click', () => {
             this.events.emit('card:open', {card: this})
