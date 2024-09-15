@@ -13,11 +13,11 @@ export class UserData implements IUserData {
         this.events = events;
     }
 
-    getUserData(): IUser {
+    getUserOrder(): IUser {
         return {payment: this.payment, email: this.email, address: this.address, phone: this.phone}
     }
 
-    setUserData(userData: IUser) {
+    setUserOrder(userData: IUser) {
         this.payment = userData.payment;
         this.email = userData.email;
         this.address = userData.address;
@@ -25,14 +25,14 @@ export class UserData implements IUserData {
         this.events.emit('user:changed');
     }
 
-    checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean {
+    /*checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean {
         const isValidAddress = data.address.includes('');
         if (!isValidAddress) {
             this.events.emit('inValidAddress');
             return false
         }
             return true
-        }
+        }*/
     }
 
 
