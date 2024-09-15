@@ -319,6 +319,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - `contacts:validation` - событие, сообщающее о необходимости валидации формы с данными пользователя
 - `contacts:submit` - событие, генерируемое при нажатии кнопки 'Оплатить'
 - `order-success__close:button` - событие, генерируемое при нажатии кнопки 'За новыми покупками'
+- `products:changed`
 
 
 
