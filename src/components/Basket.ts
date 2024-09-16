@@ -1,41 +1,53 @@
 import { Component } from "./base/Component";
 import { IEvents } from "./base/events";
+import { createElement } from "../utils/utils"; 
 
 interface IBasket {
     products: HTMLElement[],
     total: number
 }
 
+//Класс представления корзины с товарами
 export class Basket extends Component<IBasket> {
     protected basketList: HTMLElement;
-    protected _total: HTMLElement;
+    protected basketPrice: HTMLElement;
     protected buttonsDelete: HTMLButtonElement;
     protected orderButton: HTMLButtonElement;
+    protected basketIndex: HTMLElement;
 
     constructor(protected container: HTMLElement, protected events: IEvents) {
         super(container);
         this.events = events;
 
         this.basketList =  this.container.querySelector('.basket__list');
-        this._total = this.container.querySelector('.basket__price');
+        this.basketPrice = this.container.querySelector('.basket__price');
         this.buttonsDelete = this.container.querySelector('.basket__item-delete');
         this.orderButton = this.container.querySelector('.basket__button');
+        this.basketIndex = this.container.querySelector('.basket__item-index')
 
         this.orderButton.addEventListener('click', () => {
             this.events.emit('basket__button:open')    
         })
+
+        this.products = []
 }
 
 set products(products: HTMLElement[]) {
     if (products.length) {
         this.basketList.replaceChildren(...products);
-        this.orderButton.disabled = false
+       /* this.orderButton.disabled = false*/
     } else {
-        this.orderButton.disabled = true
+        this.basketList.replaceChildren(createElement<HTMLParagraphElement>('p', {
+            textContent: 'Корзина пуста'
+        }));
     }
 }
 
-/*set total(total: number) {
-    this.setText(this._total, total.toString() + ' синапсов');
-}*/
+set index(index: number) {
+    this.basketIndex.textContent = index.toString();
+}
+
+set _basketPrice(total: number) {
+    this.basketPrice.textContent = total.toString() + ' синапсов';
+}
 }
