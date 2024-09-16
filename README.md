@@ -289,8 +289,8 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Принимает в конструктор экземпляр класса Api и предоставляет методы реализации с бэкендом сервиса.
 
 Методы:
-- getProducts(): Promise<IProductItem[]>  - ответ с сервера с массивом карточек, получаем массив карточек
-- setUserInfo(data: IUserData): Promise<IUser> - 
+- getProducts(): Promise<IProductList>  - ответ с сервера с массивом карточек, получаем массив карточек
+
 - setProducts(cards: IProductItem[]): Promise<IProductItem[]> - 
 
 ## Взаимодействие компонентов
