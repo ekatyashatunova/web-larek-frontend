@@ -47,7 +47,8 @@ const catalog = new Catalog(events);
 
 const basketTemplate: HTMLTemplateElement = document.querySelector('#basket');
 const basket = new Basket(cloneTemplate(basketTemplate), events);
-const modal = new Modal(document.querySelector('#modal__container'), events);  
+const cardModalTemplate: HTMLTemplateElement = document.querySelector('#card-preview');
+const modal = new Modal(document.querySelector('#modal-container'), events);  
 
 /*const testCatalog = 
     {
@@ -207,8 +208,7 @@ events.on('productsCard:loaded', () => {
 		return cardInstant.render(product);
 	});
 
-	catalogCards.render({cardsCatalog:cardsArray}) 
-    /*console.log(catalog.getProducts())*/
+	catalogCards.render({cardsCatalog:cardsArray})
 })
 
 
@@ -219,16 +219,16 @@ events.on('productsCard:loaded', () => {
     })*/
 
 //Клик по карточке товара
-/*events.on('card:open', ((data: {card: ProductCard}) => {
+events.on('card:open', ((data: {card: ProductCard}) => {
     const { card } = data;
-    const productCardModal = catalog.getProduct(card.id);   
-    const cardModal = new ProductCard(cloneTemplate(cardTemplate), events);
+    const productModal = catalog.getProduct(card.id);   
+    const cardModal = new Modal(cloneTemplate(cardModalTemplate), events);
+   
 
     modal.render({
-        modal: cardModal.render(productCardModal)
+        modal: cardModal.render({_modal: productModal})
     });
-}))*/
-
+}))
 //Клик по кнопке "Купить"
 
 
