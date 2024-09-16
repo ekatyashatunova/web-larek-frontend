@@ -1,4 +1,4 @@
-import {IApi, IUser, IUserData, IProductItem, IOrderData, IResponseOrder} from '../../types';
+import {IApi, IUser, IUserData, IOrderData, IResponseOrder, IProductList} from '../../types';
 
 export class AppApi {
     private _baseApi: IApi;
@@ -7,20 +7,15 @@ export class AppApi {
         this._baseApi = baseApi;
     }
 
-    getProducts(): Promise<IProductItem[]> {
-        return this._baseApi.get<IProductItem[]>(`/product`).then((products: IProductItem[]) => products)
+    getProducts(): Promise<IProductList> {
+        return this._baseApi.get<IProductList>(`/product`).then((products: IProductList) => products)
     }
 
    postOrder(data: IOrderData): Promise<IResponseOrder> {
     return this._baseApi.post<IResponseOrder>(`/order`, data, `POST`).then((res:IResponseOrder ) => res)
    }
 
-   /* setUserInfo(data: IUserData): Promise<IUser> {
-        return this._baseApi.post<IUser>(`/order`, data, `POST`).then((res: IUser) => res)
-
-    }
-
-    setProducts(cards: IProductItem[]): Promise<IProductItem[]> {
+    /*setProducts(cards: IProductItem[]): Promise<IProductItem[]> {
         return this._baseApi.post<IProductItem[]>(`/product`, cards, `POST`).then((res:IProductItem[]) => res)
     }*/
 }
