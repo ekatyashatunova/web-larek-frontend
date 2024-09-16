@@ -6,7 +6,7 @@ import { IEvents } from "./base/events";
 }*/
 
 //Класс представления модального окна
-export class Modal<T> extends Component<T> {
+export class Modal<T>  extends Component<T> {
     protected _closeButton: HTMLButtonElement;
     protected _modal: HTMLElement;
    
@@ -16,20 +16,19 @@ export class Modal<T> extends Component<T> {
         super(container);
         this.events = events;
 
-        const _closeButton = this.container.querySelector('.modal__close');
-        this._modal = this.container.querySelector('.modal__content');
-        
 
+        const _closeButton = document.querySelector('.modal__close');
+        this._modal = document.querySelector('.modal__content');
+        
         _closeButton.addEventListener('click', this.close.bind(this));
-        this.container.addEventListener("mousedown", (evt) => {
-          if (evt.target === evt.currentTarget) {
+        this._modal.addEventListener('click', (evt) => {
+          if (evt.target === this.container) {
             this.close();
           }
           this.handleEscUp = this.handleEscUp.bind(this);
         });
-      
         
-        /*this._modal.addEventListener('click', (event) => event.stopPropagation());*/
+        this._modal.addEventListener('click', (event) => event.stopPropagation());
     }
 
     set modal(value: HTMLElement) {
