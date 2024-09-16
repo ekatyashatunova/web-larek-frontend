@@ -7,8 +7,9 @@ export interface IPage {
     /*locked: boolean*/
 }
 
+//Класс представления главной страницы
 export class Page extends Component<IPage> {
-    protected _cardsCatalog: HTMLElement[];
+    protected _cardsCatalog: HTMLElement;
     protected _counterBasket: HTMLElement;
     protected buttonBasket: HTMLButtonElement;
     /*protected _wrapper: HTMLElement;*/
