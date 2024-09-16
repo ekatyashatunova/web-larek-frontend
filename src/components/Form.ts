@@ -7,6 +7,7 @@ interface IForm {
     errors: Record<string, string>;
 }
 
+//Класс представления форма с данными покупателя
 export class Form extends Component<IForm> {
     protected inputs: NodeListOf<HTMLInputElement>;
     protected submitButton: HTMLButtonElement;
