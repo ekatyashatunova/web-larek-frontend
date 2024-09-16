@@ -1,4 +1,4 @@
-import {ICatalog, IProductItem} from '../types/index';
+import {ICatalog, IProductItem, IProductList} from '../types/index';
 import {IEvents} from '../components/base/events';
 
 
