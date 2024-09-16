@@ -44,9 +44,11 @@ const basketData = new BasketData(events);
 
 const catalog = new Catalog(events);
 
+
 const basketTemplate: HTMLTemplateElement = document.querySelector('#basket');
 const basket = new Basket(cloneTemplate(basketTemplate), events);
-/*basket.render({products: })*/
+const modal = new Modal(document.querySelector('#modal__container'), events);  
+
 /*const testCatalog = 
     {
             "items": [
@@ -141,14 +143,23 @@ events.onAll((event) => {
     console.log(event.eventName, event.data)
 })
 
- Promise.all([api.getProducts()])
+const promise = api.getProducts();
+promise.then((data) => {
+    catalog.setProduct(data.items);
+    events.emit('productsCard:loaded');
+})
+.catch((err) => {
+    console.error(err)
+ })
+
+ /*Promise.all([api.getProducts()])
  .then(([productsCard]) => {
     catalog.setProduct(productsCard);
     events.emit('productsCard:loaded');
 })
  .catch((err) => {
     console.error(err)
- })
+ })*/
 
 const testCard = [
     {
@@ -179,7 +190,7 @@ const testCard = [
 
  /*const testSection = document.querySelector('.gallery')*/
  const catalogCards = new Page(document.querySelector('.gallery'), events);
- const card = new ProductCard(cloneTemplate(cardTemplate), events);
+ /*const card = new ProductCard(cloneTemplate(cardTemplate), events);
  const card1 = new ProductCard(cloneTemplate(cardTemplate), events);
  const card2 = new ProductCard(cloneTemplate(cardTemplate), events);
  const cardArray = [];
@@ -188,18 +199,20 @@ const testCard = [
  cardArray.push(card2.render(testCard[2]));
 /* card.render(testCard)
  testSection.append(card.render(testCard))*/
- catalogCards.render({cardsCatalog:cardArray})
+ /*catalogCards.render({cardsCatalog:cardArray})*/
 
- /*events.on('productsCard:loaded', () => {
-	const cardArray = catalog..map((product) => {
+events.on('productsCard:loaded', () => {
+	const cardsArray = catalog.getProducts().map((product) => {
 		const cardInstant = new ProductCard(cloneTemplate(cardTemplate), events);
 		return cardInstant.render(product);
 	});
 
-	catalogCards.render({cardsCatalog:cardArray}) })*/
+	catalogCards.render({cardsCatalog:cardsArray}) 
+    /*console.log(catalog.getProducts())*/
+})
 
 
-const modal = new Modal(document.querySelector('#modal__container'), events);    
+  
 //Клик по кнопке корзина на главной странице
    /* events.on('basket:open', () => {
       
