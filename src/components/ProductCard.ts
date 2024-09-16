@@ -6,11 +6,11 @@ import {Component} from "./base/Component";
 
 //Класс представления карточки товара
 export class ProductCard extends Component<IProductItem>{
-    protected cardCategory: HTMLElement;
+    protected cardCategory?: HTMLElement;
     protected cardTitle: HTMLElement;
-    protected cardImage: HTMLImageElement;
+    protected cardImage?: HTMLImageElement;
     protected cardPrice: HTMLElement;
-    protected cardDescription: HTMLElement;
+    protected cardDescription?: HTMLElement;
     protected cardId: string;
     protected deleteButton: HTMLButtonElement;
     protected cardBasketButton: HTMLButtonElement;
@@ -52,10 +52,33 @@ export class ProductCard extends Component<IProductItem>{
     }
 
     set category(category: string) {
-        if (this.cardCategory) {   
-    this.cardCategory.textContent = category;
-        }
-}
+        if (this.cardCategory) {  
+            this.cardCategory.classList.remove('.card__category_soft','.card__category_additional', '.card__category_other', '.card__category_button', '.card__category_hard');
+            
+            this.cardCategory.textContent = category;
+
+        switch (category) {
+            case 'софт-скилл':
+                this.cardCategory.classList.add('.card__category_soft');
+                break;
+                case 'дополнительное':
+                    this.cardCategory.classList.add('.card__category_additional');
+                    break;
+                    case 'другое':
+                        this.cardCategory.classList.add('.card__category_other');
+                        break;
+                        case 'кнопка':
+                            this.cardCategory.classList.add('.card__category_button');
+                            break;
+                            case 'хард-скилл':
+                                this.cardCategory.classList.add('.card__category_hard');
+                                break;
+                                default:
+
+                                break;
+                            }
+                        }
+                    }
 
 set title(title: string) {
     if (this.cardTitle) {
@@ -76,9 +99,10 @@ set image(image: string) {
 }
 
 set price(price: number | null) {
+    /*this.cardPrice = price*/
     
 
-    /*price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' */
+    price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' 
 }
 
      get id() {
