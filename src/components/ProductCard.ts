@@ -99,10 +99,15 @@ set image(image: string) {
 }
 
 set price(price: number | null) {
-    /*this.cardPrice = price*/
+    if (price === null) {
+        this.cardPrice.textContent = 'Бесценно'
+    } else {
+        this.cardPrice.textContent = price.toString() + 'синапсов' 
+    }
+   
     
 
-    price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' 
+    /*price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' */
 }
 
      get id() {
