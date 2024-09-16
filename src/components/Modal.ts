@@ -5,24 +5,31 @@ import { IEvents } from "./base/events";
   modal: HTMLElement;
 }*/
 
+//Класс представления модального окна
 export class Modal<T> extends Component<T> {
     protected _closeButton: HTMLButtonElement;
     protected _modal: HTMLElement;
+   
     protected events: IEvents
 
     constructor(container:HTMLElement, events: IEvents) {
         super(container);
         this.events = events;
 
-       this._closeButton = document.querySelector('.modal__close');
-        this._modal = document.querySelector('.modal__content');
+        const _closeButton = this.container.querySelector('.modal__close');
+        this._modal = this.container.querySelector('.modal__content');
+        
 
-       
-        this._closeButton.addEventListener('click', this.close.bind(this));
-        /*this.container.addEventListener('click', this.close.bind(this));*/
+        _closeButton.addEventListener('click', this.close.bind(this));
+        this.container.addEventListener("mousedown", (evt) => {
+          if (evt.target === evt.currentTarget) {
+            this.close();
+          }
+          this.handleEscUp = this.handleEscUp.bind(this);
+        });
+      
         
-        
-        this._modal.addEventListener('click', (event) => event.stopPropagation());
+        /*this._modal.addEventListener('click', (event) => event.stopPropagation());*/
     }
 
     set modal(value: HTMLElement) {
@@ -31,14 +38,22 @@ export class Modal<T> extends Component<T> {
         
         open() {
           this.container.classList.add('modal_active');
+          document.addEventListener("keyup", this.handleEscUp);
           this.events.emit('modal:close');
         }
         
         close() {
             this.container.classList.remove('modal_active');
+            document.removeEventListener("keyup", this.handleEscUp);
             this._modal = null;
             this.events.emit('modal:close');
         }
+
+        handleEscUp (evt: KeyboardEvent) {
+          if (evt.key === "Escape") {
+            this.close();
+          }
+        };
 
         render(data: T): HTMLElement {
           super.render(data);
@@ -46,4 +61,5 @@ export class Modal<T> extends Component<T> {
           return this.container;
         }
     }
+  
 
