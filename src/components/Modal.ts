@@ -1,60 +1,44 @@
 import { Component } from "./base/Component";
 import { IEvents } from "./base/events";
+import { ensureElement } from "../utils/utils";
 
-/*interface IModal {
-  modal: HTMLElement;
-}*/
+interface IModal {
+  content: HTMLElement;
+}
 
 //Класс представления модального окна
-export class Modal<T>  extends Component<T> {
+export class Modal extends Component<IModal> {
     protected _closeButton: HTMLButtonElement;
-    protected _modal: HTMLElement;
-   
-    protected events: IEvents
+    protected _content: HTMLElement;
 
-    constructor(container:HTMLElement, events: IEvents) {
+    constructor(container: HTMLElement, protected events: IEvents) {
         super(container);
-        this.events = events;
 
-
-        const _closeButton = document.querySelector('.modal__close');
-        this._modal = document.querySelector('.modal__content');
+        this._closeButton = ensureElement<HTMLButtonElement>('.modal__close', container);
+        this._content = ensureElement<HTMLElement>('.modal__content', container);
         
-        _closeButton.addEventListener('click', this.close.bind(this));
-        this._modal.addEventListener('click', (evt) => {
-          if (evt.target === this.container) {
-            this.close();
-          }
-          this.handleEscUp = this.handleEscUp.bind(this);
-        });
-        
-        this._modal.addEventListener('click', (event) => event.stopPropagation());
+        this._closeButton.addEventListener('click', this.close.bind(this));
+        this.container.addEventListener('click',this.close.bind(this)) ;
+        this._content.addEventListener('click', (event) => event.stopPropagation());
     }
 
-    set modal(value: HTMLElement) {
-      this._modal.replaceChildren(value);
+    set content(value: HTMLElement) {
+      this._content.replaceChildren(value);
     }
         
         open() {
           this.container.classList.add('modal_active');
-          document.addEventListener("keyup", this.handleEscUp);
-          this.events.emit('modal:close');
+          this.events.emit('modal:open');
         }
         
         close() {
             this.container.classList.remove('modal_active');
-            document.removeEventListener("keyup", this.handleEscUp);
-            this._modal = null;
+            /*this.content.remove();*/
+            this.content = null;
             this.events.emit('modal:close');
         }
 
-        handleEscUp (evt: KeyboardEvent) {
-          if (evt.key === "Escape") {
-            this.close();
-          }
-        };
-
-        render(data: T): HTMLElement {
+        render(data: IModal): HTMLElement {
           super.render(data);
           this.open();
           return this.container;
