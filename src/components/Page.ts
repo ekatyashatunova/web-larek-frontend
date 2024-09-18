@@ -4,7 +4,7 @@ import {IEvents } from "./base/events";
 export interface IPage {
     cardsCatalog: HTMLElement[];
     counterBasket: HTMLElement;
-    /*locked: boolean*/
+    /*locked: boolean;*/
 }
 
 //Класс представления главной страницы
