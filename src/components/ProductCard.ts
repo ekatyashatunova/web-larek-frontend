@@ -17,7 +17,6 @@ export class ProductCard extends Component<IProductItem>{
 
     constructor(protected container: HTMLElement, protected events: IEvents) {
         super(container);
-        this.events = events;
 
         this.cardCategory = this.container.querySelector('.card__category');
         this.cardTitle = this.container.querySelector('.card__title');
@@ -104,8 +103,6 @@ set price(price: number | null) {
     } else {
         this.cardPrice.textContent = price.toString() + 'синапсов' 
     }
-   
-    
 
     /*price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' */
 }
