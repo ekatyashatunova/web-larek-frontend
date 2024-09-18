@@ -38,12 +38,18 @@ const basketData = new BasketData(events);
 
 const catalog = new Catalog(events);
 
-const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
-const basket = new Basket(cloneTemplate(basketTemplate), events);
 const cardTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const cardModalTemplate = ensureElement<HTMLTemplateElement>('#card-preview');
-const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
+const basketCardTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
+const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
+const paymentFormTemplate = ensureElement<HTMLTemplateElement>('#order');
+const contactsFormTemplate = ensureElement<HTMLTemplateElement>('#contacts');
+const successPayTemplate = ensureElement<HTMLTemplateElement>('#success')
 
+
+const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
+const basket = new Basket(cloneTemplate(basketTemplate), events);
+const page = new Page(document.body, events);
 /*const testCatalog = 
     {
             "items": [
@@ -147,15 +153,6 @@ promise.then((data) => {
     console.error(err)
  })
 
- /*Promise.all([api.getProducts()])
- .then(([productsCard]) => {
-    catalog.setProduct(productsCard);
-    events.emit('productsCard:loaded');
-})
- .catch((err) => {
-    console.error(err)
- })*/
-
 /*const testCard = [
     {
         "id": "854cef69-976d-4c2a-a18c-2aa45046c390",
@@ -185,17 +182,8 @@ promise.then((data) => {
 
  /*const testSection = document.querySelector('.gallery')*/
  const catalogCards = new Page(document.querySelector('.gallery'), events);
- /*const card = new ProductCard(cloneTemplate(cardTemplate), events);
- const card1 = new ProductCard(cloneTemplate(cardTemplate), events);
- const card2 = new ProductCard(cloneTemplate(cardTemplate), events);
- const cardArray = [];
- cardArray.push(card.render(testCard[0]));
- cardArray.push(card1.render(testCard[1]));
- cardArray.push(card2.render(testCard[2]));
-/* card.render(testCard)
- testSection.append(card.render(testCard))*/
- /*catalogCards.render({cardsCatalog:cardArray})*/
 
+ //Загрузка данных товаров карточек
 events.on('productsCard:loaded', () => {
 	const cardsArray = catalog.getProducts().map((product) => {
 		const cardInstant = new ProductCard(cloneTemplate(cardTemplate), events);
@@ -215,11 +203,12 @@ events.on('card:open', ((data: {card: ProductCard}) => {
 }))
 
 //Клик по кнопке корзина на главной странице
-   /* events.on('basket:open', () => {
+   events.on('basket:open', () => {
+   const cardBasket = new ProductCard(cloneTemplate(basketCardTemplate), events);
       
-    })*/
+    })
 
-//Клик по кнопке "Купить"
+//Клик по кнопке "Купить
 
 
 //Клик по кнопке "Оформить"
@@ -232,3 +221,16 @@ events.on('card:open', ((data: {card: ProductCard}) => {
 
 
 //Клик по кнопке "Оплатить" в форме с данными покупателя
+
+
+
+
+// Блокируем прокрутку страницы если открыта модалка
+events.on('modal:open', () => {
+    page.locked = true;
+});
+
+// ... и разблокируем
+events.on('modal:close', () => {
+    page.locked = false;
+});
