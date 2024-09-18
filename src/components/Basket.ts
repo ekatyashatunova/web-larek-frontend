@@ -26,7 +26,7 @@ export class Basket extends Component<IBasket> {
         this.basketIndex = this.container.querySelector('.basket__item-index')
 
         this.orderButton.addEventListener('click', () => {
-            this.events.emit('basket__button:open')    
+            this.events.emit('basket:open')    
         })
 
         this.products = []
