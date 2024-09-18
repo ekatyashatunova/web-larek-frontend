@@ -101,7 +101,7 @@ set price(price: number | null) {
     if (price === null) {
         this.cardPrice.textContent = 'Бесценно'
     } else {
-        this.cardPrice.textContent = price.toString() + 'синапсов' 
+        this.cardPrice.textContent = price.toString() + ' синапсов' 
     }
 
     /*price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' */
