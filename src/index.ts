@@ -11,7 +11,7 @@ import {API_URL,settings} from './utils/constants';
 import {AppApi} from './components/base/AppApi';
 import {ProductCard} from './components/ProductCard';
 import {Page} from './components/Page';
-import { cloneTemplate } from './utils/utils';
+import { cloneTemplate, ensureElement } from './utils/utils';
 import { Basket } from './components/Basket';
 import { Modal } from './components/Modal';
 
@@ -31,24 +31,18 @@ userData.setUserOrder(testUserData);
 console.log(userData.getUserOrder());
 /*console.log(userData.checkValidationOrder(testUserData))*/
 
-const cardTemplate: HTMLTemplateElement = document.querySelector('#card-catalog');
-
 const baseApi: IApi = new Api(API_URL, settings);
 const api = new AppApi(baseApi)
 
 const basketData = new BasketData(events);
 
-/*console.log(basketData.getTotalPrice());*/
-
-
-
 const catalog = new Catalog(events);
 
-
-const basketTemplate: HTMLTemplateElement = document.querySelector('#basket');
+const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
 const basket = new Basket(cloneTemplate(basketTemplate), events);
-const cardModalTemplate: HTMLTemplateElement = document.querySelector('#card-preview');
-const modal = new Modal(document.querySelector('#modal-container'), events);  
+const cardTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
+const cardModalTemplate = ensureElement<HTMLTemplateElement>('#card-preview');
+const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
 
 /*const testCatalog = 
     {
@@ -162,7 +156,7 @@ promise.then((data) => {
     console.error(err)
  })*/
 
-const testCard = [
+/*const testCard = [
     {
         "id": "854cef69-976d-4c2a-a18c-2aa45046c390",
         "description": "Если планируете решать задачи в тренажёре, берите два.",
@@ -187,7 +181,7 @@ const testCard = [
         "category": "дополнительное",
         "price": 2500
     },
-]
+]*/
 
  /*const testSection = document.querySelector('.gallery')*/
  const catalogCards = new Page(document.querySelector('.gallery'), events);
@@ -211,24 +205,20 @@ events.on('productsCard:loaded', () => {
 	catalogCards.render({cardsCatalog:cardsArray})
 })
 
+//Клик по карточке товара
+events.on('card:open', ((data: {card: ProductCard}) => {
+    const { card } = data;
+    const productModal = catalog.getProduct(card.id);   
+    const cardModal = new ProductCard(cloneTemplate(cardModalTemplate), events);
 
-  
+    modal.render({content: cardModal.render(productModal)});
+}))
+
 //Клик по кнопке корзина на главной странице
    /* events.on('basket:open', () => {
       
     })*/
 
-//Клик по карточке товара
-events.on('card:open', ((data: {card: ProductCard}) => {
-    const { card } = data;
-    const productModal = catalog.getProduct(card.id);   
-    const cardModal = new Modal(cloneTemplate(cardModalTemplate), events);
-   
-
-    modal.render({
-        modal: cardModal.render({_modal: productModal})
-    });
-}))
 //Клик по кнопке "Купить"
 
 
