@@ -22,7 +22,7 @@ export class Catalog implements ICatalog {
     }
 
     getProduct(cardId: string) {
-        return this.products.map((data) => data.id === cardId)
+        return this.products.find((data) => data.id === cardId)
     }
 
     set preview(cardId: string | null) {
