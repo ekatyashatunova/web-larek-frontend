@@ -205,6 +205,9 @@ events.on('card:open', ((data: {card: ProductCard}) => {
 //Клик по кнопке корзина на главной странице
    events.on('basket:open', () => {
    const cardBasket = new ProductCard(cloneTemplate(basketCardTemplate), events);
+   /*const productBasket = basket.products*/
+
+   modal.render({content: basket.render()})
       
     })
 
