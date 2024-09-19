@@ -25,7 +25,7 @@ export class Catalog implements ICatalog {
         return this.products.find((data) => data.id === cardId)
     }
 
-    set preview(cardId: string | null) {
+    /*set preview(cardId: string | null) {
         if (!cardId) {
             this._preview = null;
             return;
@@ -39,6 +39,6 @@ export class Catalog implements ICatalog {
 
     get preview() {
         return this._preview
-    }
+    }*/
 }
 
