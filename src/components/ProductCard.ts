@@ -5,7 +5,7 @@ import {CDN_URL} from "../utils/constants";
 import {Component} from "./base/Component";
 
 //Класс представления карточки товара
-export class ProductCard extends Component<IProductItem>{
+export class ProductCard extends Component<IProductItem> {
     protected cardCategory?: HTMLElement;
     protected cardTitle: HTMLElement;
     protected cardImage?: HTMLImageElement;
@@ -24,14 +24,14 @@ export class ProductCard extends Component<IProductItem>{
         this.cardPrice = this.container.querySelector('.card__price');
         this.cardDescription = this.container.querySelector('.card__text');
         //this.deleteButton = document.querySelector('.basket__item-delete');
-        this.cardBasketButton = document.querySelector('.button.card__button');
+        this.cardBasketButton =this.container.querySelector('.button.card__button');
 
         /*this.deleteButton.addEventListener('click', () => {
             this.events.emit('basket__item-delete:delete', {card: this})
         })*/
         if (this.cardBasketButton) {
         this.cardBasketButton.addEventListener('click', () => {
-            this.events.emit('basket__list:add', {card: this})
+            this.events.emit('product:add', {card: this})
         })
         }
         
@@ -51,26 +51,26 @@ export class ProductCard extends Component<IProductItem>{
     }
 
     set category(category: string) {
-        if (this.cardCategory) {  
-            this.cardCategory.classList.remove('.card__category_soft','.card__category_additional', '.card__category_other', '.card__category_button', '.card__category_hard');
+       if (this.cardCategory) {  
+            this.cardCategory.classList.remove('card__category_soft', 'card__category_additional', 'card__category_other', 'card__category_button', 'card__category_hard');
             
-            this.cardCategory.textContent = category;
+            this.cardCategory.textContent = category; 
 
         switch (category) {
             case 'софт-скилл':
-                this.cardCategory.classList.add('.card__category_soft');
+                this.cardCategory.classList.add('card__category_soft');
                 break;
                 case 'дополнительное':
-                    this.cardCategory.classList.add('.card__category_additional');
+                    this.cardCategory.classList.add('card__category_additional');
                     break;
                     case 'другое':
-                        this.cardCategory.classList.add('.card__category_other');
+                        this.cardCategory.classList.add('card__category_other');
                         break;
                         case 'кнопка':
-                            this.cardCategory.classList.add('.card__category_button');
+                            this.cardCategory.classList.add('card__category_button');
                             break;
                             case 'хард-скилл':
-                                this.cardCategory.classList.add('.card__category_hard');
+                                this.cardCategory.classList.add('card__category_hard');
                                 break;
                                 default:
 
@@ -110,7 +110,8 @@ set price(price: number | null) {
      get id() {
         return this.cardId
      }
-}     
+} 
+    
     
 
    
