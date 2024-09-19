@@ -17,7 +17,6 @@ export class Basket extends Component<IBasket> {
 
     constructor(protected container: HTMLElement, protected events: IEvents) {
         super(container);
-        this.events = events;
 
         this.basketList =  this.container.querySelector('.basket__list');
         this.basketPrice = this.container.querySelector('.basket__price');
@@ -26,7 +25,7 @@ export class Basket extends Component<IBasket> {
         this.basketIndex = this.container.querySelector('.basket__item-index')
 
         this.orderButton.addEventListener('click', () => {
-            this.events.emit('basket:open')    
+            this.events.emit('form:open')    
         })
 
         this.products = []
@@ -35,11 +34,12 @@ export class Basket extends Component<IBasket> {
 set products(products: HTMLElement[]) {
     if (products.length) {
         this.basketList.replaceChildren(...products);
-       /* this.orderButton.disabled = false*/
+        this.orderButton.disabled = false;
     } else {
         this.basketList.replaceChildren(createElement<HTMLParagraphElement>('p', {
             textContent: 'Корзина пуста'
         }));
+        this.orderButton.disabled = true;
     }
 }
 
