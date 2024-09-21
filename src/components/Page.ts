@@ -3,7 +3,7 @@ import {IEvents } from "./base/events";
 
 export interface IPage {
     cardsCatalog: HTMLElement[];
-    counterBasket: HTMLElement;
+    counterBasket: number;
     locked: boolean;
 }
 
@@ -19,7 +19,7 @@ export class Page extends Component<IPage> {
         this.events = events;
 
         this.buttonBasket = document.querySelector('.header__basket');
-        this._counterBasket = this.container.querySelector('.basket__price');
+        this._counterBasket = this.container.querySelector('.header__basket-counter');
         this._wrapper = this.container.querySelector('.page__wrapper');
 
         
@@ -31,6 +31,10 @@ export class Page extends Component<IPage> {
 
     set cardsCatalog(items: HTMLElement[]) {
         this.container.replaceChildren(...items);
+    }
+
+    set counterBasket(counterBasket: number) {
+        this._counterBasket.textContent = counterBasket.toString();
     }
 
     set locked(value: boolean) {
