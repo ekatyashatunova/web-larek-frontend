@@ -5,7 +5,6 @@ export interface IProductItem {
     title: string,
     description: string,
     price: number | null,
-    /*locked?: boolean*/
 }
 
 export interface IProductList {
