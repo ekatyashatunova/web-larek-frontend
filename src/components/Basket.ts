@@ -28,6 +28,10 @@ export class Basket extends Component<IBasket> {
             this.events.emit('form:open')    
         })
 
+       /* this.buttonsDelete.addEventListener('click', () => {
+            this.events.emit('product:delete')
+        })*/
+
         this.products = []
 }
 
