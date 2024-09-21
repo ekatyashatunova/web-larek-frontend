@@ -15,6 +15,9 @@ export class ProductCard extends Component<IProductItem> {
     protected deleteButton: HTMLButtonElement;
     protected cardBasketButton: HTMLButtonElement;
 
+    //Для отключения кнопки если товар бесценный
+    protected buttonDisabled: boolean;
+
     constructor(protected container: HTMLElement, protected events: IEvents) {
         super(container);
 
@@ -30,13 +33,15 @@ export class ProductCard extends Component<IProductItem> {
             this.events.emit('basket__item-delete:delete', {card: this})
         })*/
         if (this.cardBasketButton) {
-        this.cardBasketButton.addEventListener('click', () => {
+        this.cardBasketButton.addEventListener('click', (event) => {
+            event.stopPropagation();
             this.events.emit('product:add', {card: this})
         })
         }
         
-        this.container.addEventListener('click', () => {
-            this.events.emit('card:open', {card: this})
+        this.container.addEventListener('click', (event) => {
+            event.stopPropagation();
+            this.events.emit('product:open', {card: this})
         })
     }
 
@@ -47,17 +52,20 @@ export class ProductCard extends Component<IProductItem> {
      }
 
      set id(id) {
-        this.cardId = id
+        this.cardId = id;
+         
     }
 
     set category(category: string) {
        if (this.cardCategory) {  
             this.cardCategory.classList.remove('card__category_soft', 'card__category_additional', 'card__category_other', 'card__category_button', 'card__category_hard');
+        }
             
             this.cardCategory.textContent = category; 
+            /*console.log(this.cardCategory);*/
 
         switch (category) {
-            case 'софт-скилл':
+            case 'софт-скил':
                 this.cardCategory.classList.add('card__category_soft');
                 break;
                 case 'дополнительное':
@@ -69,15 +77,16 @@ export class ProductCard extends Component<IProductItem> {
                         case 'кнопка':
                             this.cardCategory.classList.add('card__category_button');
                             break;
-                            case 'хард-скилл':
+                            case 'хард-скил':
                                 this.cardCategory.classList.add('card__category_hard');
                                 break;
+
                                 default:
 
                                 break;
                             }
                         }
-                    }
+                   
 
 set title(title: string) {
     if (this.cardTitle) {
@@ -97,18 +106,35 @@ set image(image: string) {
     }
 }
 
-set price(price: number | null) {
-    if (price === null) {
-        this.cardPrice.textContent = 'Бесценно'
-    } else {
-        this.cardPrice.textContent = price.toString() + ' синапсов' 
-    }
 
-    /*price ? this.cardPrice.textContent = price.toString() + 'синапсов' : this.cardPrice.textContent = 'Бесценно' */
+//Проверка если товар в корзине - меняем текст кнопки 'Удалить из корзины'
+
+    /*if(this.cardBasketButton) {
+    
+        this.cardBasketButton.textContent = this.buttonDisabled ? 'Удалить из корзины': 'В корзину'
+    }
+}*/
+
+set price(price: number | null) {
+
+    if (price === null) {
+        this.cardPrice.textContent = 'Бесценно';
+        this.buttonDisabled = true;
+    } else {
+        this.cardPrice.textContent = price.toString() + ' синапсов';
+        this.buttonDisabled = false;
+    }
+    
+    if(this.cardBasketButton) {
+        this.cardBasketButton.disabled = this.buttonDisabled;
+    }
 }
+
+
 
      get id() {
         return this.cardId
+
      }
 } 
     
