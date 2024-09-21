@@ -8,7 +8,7 @@ interface IForm {
 }
 
 //Класс представления форма с данными покупателя
-export class Form extends Component<IForm> {
+export class Form<T> extends Component<IForm> {
     protected inputs: NodeListOf<HTMLInputElement>;
     protected submitButton: HTMLButtonElement;
     protected formName: string;
