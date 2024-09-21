@@ -29,7 +29,7 @@ export class BasketData implements IBasketData {
         this.events.emit('basket:changed') 
     }
 
-    checkBasketValidation(id: string): boolean {
+    checkBasket(id: string): boolean {
        return this._products.some((product) => product.id === id) 
     }
 
