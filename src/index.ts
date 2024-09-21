@@ -40,7 +40,7 @@ basketData.products = [];
 const catalog = new Catalog(events);
 
 const cardTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
-const cardModalTemplate = ensureElement<HTMLTemplateElement>('#card-preview');
+const cardPreviewTemplate = ensureElement<HTMLTemplateElement>('#card-preview');
 const basketCardTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
 const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
 const paymentFormTemplate = ensureElement<HTMLTemplateElement>('#order');
@@ -197,10 +197,12 @@ events.on('productsCard:loaded', () => {
 //Клик по карточке товара
 events.on('product:open', ((data: {card: ProductCard}) => {
     const { card } = data;
-    const productModal = catalog.getProduct(card.id);   
-    const cardModal = new ProductCard(cloneTemplate(cardModalTemplate), events);
 
-    modal.render({content: cardModal.render(productModal)});
+    const productModal = catalog.getProduct(card.id);   
+    const cardPreview = new ProductCard(cloneTemplate(cardPreviewTemplate), events);
+
+    modal.render({content: cardPreview.render(productModal)});
+    
 }))
 
 //Клик по кнопке корзина на главной странице
@@ -218,11 +220,27 @@ events.on('product:open', ((data: {card: ProductCard}) => {
     })
 
 //Клик по кнопке "В корзину"
+/*events.on('product:add', ((data:{card: ProductCard}) => {
+    const { card } = data;
+    const cardInBasket = basketData.checkBasket(card.id);
+    const cardAdd = new ProductCard(cloneTemplate(basketCardTemplate), events);
+    cardAdd._checkBasket = cardInBasket;
+    modal.render({content: cardAdd.render(cardAdd)}); //рендерим карточку с измененным текстом кнопки
+}))*/
+
+
+
+//Клик по кнопке "В корзину"
 events.on('product:add', ((data: {card: ProductCard}) => {
     const { card } = data;
     const newProduct = catalog.getProduct(card.id);
     basketData.addProduct(newProduct);
 
+    const cardInBasket = basketData.checkBasket(card.id);
+    const cardAdd = new ProductCard(cloneTemplate(basketCardTemplate), events);
+    cardAdd._checkBasket = cardInBasket;
+    modal.render({content: cardAdd.render(cardAdd)});
+    
     modal.close();
     page.counterBasket = basketData.getProductsCounter();
 
