@@ -5,6 +5,7 @@ export interface IProductItem {
     title: string,
     description: string,
     price: number | null,
+   
 }
 
 export interface IProductList {
@@ -29,7 +30,7 @@ export interface IBasketData {
     getAllProducts(): IProductItem[],
     addProduct(product: IProductItem): void;
     deleteProduct(product: IProductItem): void;
-    checkBasketValidation(id: string): boolean;
+    checkBasket(id: string): boolean;
     getTotalPrice(): number;
     getProductsCounter(): number;
     clearBasket(): void;
