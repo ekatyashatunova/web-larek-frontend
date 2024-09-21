@@ -228,10 +228,11 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 В классе устанавливаются слушатели на все интерактивные элементы.
 
 Поля класса:
-- basketItems: <HTMLElement> - товары в корзине
+- basketList: <HTMLElement> - товары в корзине
 - basketPrice: <HTMLElement> - стоимость товаров в корзине
 - buttonsDelete: <HTMLButtonElement> - кнопки удаления товара из корзины
-- button: <HTMLButtonElement> - кнопка оформления заказа
+- orderButton: <HTMLButtonElement> - кнопка оформления заказа
+- basketIndex: <HTMLElement> - индекс товара в корзине
 
 Методы:
 - open() - открывает попап формы данных пользователя (кнопка 'Оформить')
@@ -303,11 +304,10 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - `user:changed` - изменение данных покупателя
 
 *События, возникающие при взаимодействии пользователя с интерфейсом (генерируются классами, отвечающими за представление)*
-- `gallery__item:open` - открытие модального окна карточки товара
-- `card:open` - открытие модального окна корзины товаров
+- `card:open` - открытие модального окна карточки товара
 - `basket:open` - открытие модального окна корзины товаров
-- `basket__item-delete:delete` - удалить товар из корзины
-- `basket__list:add` - добавить товар в корзину
+- `product:delete` - удалить товар из корзины
+- `product:add` - добавить товар в корзину
 - `basket__button:open` - при нажатии на кнопку 'Оформить' открывается форма с данными пользователя
 - `basket:changed`
 - `order__buttons:select` - выбрать способ оплаты
