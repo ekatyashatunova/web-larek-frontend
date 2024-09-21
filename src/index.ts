@@ -20,7 +20,7 @@ import { Modal } from './components/Modal';
 const events = new EventEmitter();
 const userData = new UserData(events);
 
-const testUserData = {
+/*const testUserData = {
     "payment": "credit",
     "email": "test@test.ru",
     "phone": "+71234567890",
@@ -35,6 +35,7 @@ const baseApi: IApi = new Api(API_URL, settings);
 const api = new AppApi(baseApi)
 
 const basketData = new BasketData(events);
+basketData.products = [];
 
 const catalog = new Catalog(events);
 
@@ -194,7 +195,7 @@ events.on('productsCard:loaded', () => {
 })
 
 //Клик по карточке товара
-events.on('card:open', ((data: {card: ProductCard}) => {
+events.on('product:open', ((data: {card: ProductCard}) => {
     const { card } = data;
     const productModal = catalog.getProduct(card.id);   
     const cardModal = new ProductCard(cloneTemplate(cardModalTemplate), events);
@@ -204,20 +205,40 @@ events.on('card:open', ((data: {card: ProductCard}) => {
 
 //Клик по кнопке корзина на главной странице
    events.on('basket:open', () => {
-   const cardBasket = new ProductCard(cloneTemplate(basketCardTemplate), events);
-   /*const productBasket = basket.products*/
+    basket.products = basketData.getAllProducts().map((product) => {
+        const cardBasket = new ProductCard(cloneTemplate(basketTemplate), events);
+        return cardBasket.render(product);
+    })
+  
+   const basketTotalPrice = basketData.getTotalPrice();
+   basket._basketPrice = basketTotalPrice;
 
    modal.render({content: basket.render()})
       
     })
 
-//Клик по кнопке "Купить
+//Клик по кнопке "В корзину"
+events.on('product:add', ((data: {card: ProductCard}) => {
+    const { card } = data;
+    const newProduct = catalog.getProduct(card.id);
+    basketData.addProduct(newProduct);
+
+    modal.close();
+    page.counterBasket = basketData.getProductsCounter();
+
+}))
 
 
 //Клик по кнопке "Оформить"
 
 
 //Удалить товар из корзины
+events.on('product:delete', ((data: {card: ProductCard}) => {
+    const { card } = data;
+    const deleteProduct = catalog.getProduct(card.id);
+    basketData.deleteProduct(deleteProduct);
+
+}))
 
 
 //Клип по кнопке "Далее" в форме с данными покупателя
