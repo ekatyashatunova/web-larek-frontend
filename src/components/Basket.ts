@@ -47,6 +47,8 @@ set products(products: HTMLElement[]) {
     }
 }
 
+
+
 set index(index: number) {
     this.basketIndex.textContent = index.toString();
 }
