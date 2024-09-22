@@ -99,13 +99,13 @@ set image(image: string) {
 }
 
 //Проверка если товар в корзине - меняем текст кнопки 'Удалить из корзины'
-set _checkBasket(isInBasket: boolean) {
-    this._isInBasket = isInBasket; 
+set isInBasket(value: boolean) {
+    this._isInBasket = value; 
 
-    if(this._isInBasket) {
-        this.cardBasketButton.textContent = 'Удалить из корзины'
+    if(this.cardBasketButton) {
+        this.cardBasketButton.textContent = 'Удалить из корзины';
     } else {
-        this.cardBasketButton.textContent = 'В корзину'
+        this.cardBasketButton.textContent = 'В корзину';
     }
   }
 
