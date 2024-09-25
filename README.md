@@ -187,6 +187,8 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
  - image: <HTMLImageElement> - отображение изображения товара
  - price: <HTMLElement> - отображение стоимости товара
  - description: <HTMLElement> - отображение описания товара
+ - buttonsDelete: <HTMLButtonElement> - кнопки удаления товара из корзины
+ - basketIndex: <HTMLElement> - индекс товара в корзине
  - events: IEvents - брокер событий
 
 Методы:
@@ -197,31 +199,31 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Отвечает за отображение контента на главной странице. В конструктор принимает контейнер, в котором размещаются карточки.
 
 Поля класса:
-- gallery: <HTMLElement> - каталог карточек товаров на странице
+- _cardsCatalog: <HTMLElement> - каталог карточек товаров на странице
 - buttonBasket: <HTMLButtonElement> - кнопка для корзины
-- basketCounter: <HTMLElement> - отображение счетчика товаров в корзине
-- gallery__itemButton: <HTMLButtonElement> - при нажатии на карточку товара, карточка открывается
+- _counterBasket: <HTMLElement> - отображение счетчика товаров в корзине
+- _wrapper: HTMLElement: <HTMLElement> - при нажатии на карточку товара, карточка открывается
 - events: IEvents - брокер событий
 
 Методы:
-- open(): void - открытие модального окна карточки товара
-- click(): void - открытие модального окна корзины
-- setProduct(item: IProductItem): void - устанавливает карточку товара
+- open(): void - открытие модального окна корзины
+- сеттеры для сохранения данных из полей класса
 
 #### Класс Modal
 Отвечает за работу с модальными окнами. 
 Конструктор создает элементы HTML и добавляет обработчик события для кнопки закрытия.
 
 Поля класса:
-- modalContainer: <HTMLElement> - контейнер для модального окна
-- modalCloseButton: <HTMLElement> - кнопка закрытия модального окна
-- modalContent: <HTMLElement> - содержимое модального окна
+- _closeButton: <HTMLButtonElement>:  - кнопка закрытия модального окна
+- _content: <HTMLElement> - содержимое модального окна
 - events: IEvents - брокер событий
 
 Методы:
 - open() - открывает модальное окно
 - close() - закрывает модальное окно
 - setContent(): <HTMLElement> - устанавливает контент модального окна
+- handleEscUp - закрытие подального окна по клавише "ESC"
+- render(data: IModal): <HTMLElement> - 
 
 #### Класс Basket
 Отвечает за отображение корзины товаров.
@@ -230,9 +232,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Поля класса:
 - basketList: <HTMLElement> - товары в корзине
 - basketPrice: <HTMLElement> - стоимость товаров в корзине
-- buttonsDelete: <HTMLButtonElement> - кнопки удаления товара из корзины
 - orderButton: <HTMLButtonElement> - кнопка оформления заказа
-- basketIndex: <HTMLElement> - индекс товара в корзине
 
 Методы:
 - open() - открывает попап формы данных пользователя (кнопка 'Оформить')
@@ -291,7 +291,6 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 
 Методы:
 - getProducts(): Promise<IProductList>  - ответ с сервера с массивом карточек, получаем массив карточек
-
 - setProducts(cards: IProductItem[]): Promise<IProductItem[]> - 
 
 ## Взаимодействие компонентов
@@ -304,11 +303,11 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - `user:changed` - изменение данных покупателя
 
 *События, возникающие при взаимодействии пользователя с интерфейсом (генерируются классами, отвечающими за представление)*
-- `card:open` - открытие модального окна карточки товара
+- `product:open` - открытие модального окна карточки товара
 - `basket:open` - открытие модального окна корзины товаров
 - `product:delete` - удалить товар из корзины
 - `product:add` - добавить товар в корзину
-- `basket__button:open` - при нажатии на кнопку 'Оформить' открывается форма с данными пользователя
+- `basket__button:submit` - при нажатии на кнопку 'Оформить' открывается форма с данными пользователя
 - `basket:changed`
 - `order__buttons:select` - выбрать способ оплаты
 - `address:input` - изменение данных в форме с данными пользователя
