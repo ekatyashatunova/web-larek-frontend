@@ -114,28 +114,30 @@ events.on('product:add', (data: {card: ProductCard}) => {
      console.log(basketData.getAllProducts(), {})
 })
 
-events.on('basket:changed', () => {
+events.on('basket:add', () => {
     page.counterBasket = basketData.getProductsCounter();
     modal.close();
 })
 
 //Удалить товар из корзины
-/*events.on('product:delete', (card: ProductCard) => {
-const { product } = data;
+events.on('product:delete', (data: {card: ProductCard}) => {
+const { card } = data;
 const cardDelete = catalog.getProduct(card.id);
-basketData.deleteProduct(card);
+basketData.deleteProduct(cardDelete);
 })
 
 events.on('basket:delete', () => {
     const productOrdered = basketData.getAllProducts().map((product, index) => {
         const cardBasket = new ProductCard(cloneTemplate(basketCardTemplate), events);
-        cardBasket.index = index - 1;
+        cardBasket.index = index + 1;
         return cardBasket.render(product)
 })
 
 basket.products =  productOrdered;
+basket.total = basketData.getTotalPrice();
+page.counterBasket = basketData.getProductsCounter();
 modal.render({content: basket.render()})
-})*/
+})
 
 
 
