@@ -37,7 +37,7 @@ basketData.products = [];
 
 const catalog = new Catalog(events);
 
-const cardTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
+const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const cardPreviewTemplate = ensureElement<HTMLTemplateElement>('#card-preview');
 const basketCardTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
 const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
@@ -71,7 +71,7 @@ promise.then((data) => {
  //Загрузка данных товаров карточек
 events.on('productsCard:loaded', () => {
 	const cardsArray = catalog.getProducts().map((product) => {
-		const cardInstant = new ProductCard(cloneTemplate(cardTemplate), events);
+		const cardInstant = new ProductCard(cloneTemplate(cardCatalogTemplate), events);
 		return cardInstant.render(product);
 	});
 
@@ -84,8 +84,8 @@ events.on('product:open', ((data: {card: ProductCard}) => {
 
     const productModal = catalog.getProduct(card.id);   
     const cardPreview = new ProductCard(cloneTemplate(cardPreviewTemplate), events);
-    /*const productInBasket = basketData.checkBasket(card.id);
-    cardPreview.updateButtonBasket = productInBasket;*/
+    const productInBasket = basketData.checkBasket(card.id);
+    cardPreview.updateButtonBasket = productInBasket;
     modal.render({content: cardPreview.render(productModal)});
     
 }))
@@ -95,10 +95,7 @@ events.on('product:open', ((data: {card: ProductCard}) => {
     const productOrdered = basketData.getAllProducts().map((product, index) => {
         const cardBasket = new ProductCard(cloneTemplate(basketCardTemplate), events);
         cardBasket.index = index + 1;
-        /*page.counterBasket = basketData.getProductsCounter();*/
-       
         return cardBasket.render(product)
-       
     })
     
     basket.products =  productOrdered;
@@ -112,6 +109,7 @@ events.on('product:open', ((data: {card: ProductCard}) => {
 events.on('product:add', (data: {product: ProductCard}) => {
     const { product } = data;
     
+    /*const cardAdd = catalog.getProduct(product.id); */
      basketData.addProduct(product);
      console.log(data, {})
 })
@@ -122,9 +120,22 @@ events.on('basket:changed', () => {
 })
 
 //Удалить товар из корзины
-events.on('product:delete', (product: ProductCard) => {
+/*events.on('product:delete', (data: {product: ProductCard}) => {
+const { product } = data;
+const cardDelete = catalog.getProduct(card.id);
 basketData.deleteProduct(product);
 })
+
+events.on('basket:delete', () => {
+    const productOrdered = basketData.getAllProducts().map((product, index) => {
+        const cardBasket = new ProductCard(cloneTemplate(basketCardTemplate), events);
+        cardBasket.index = index - 1;
+        return cardBasket.render(product)
+})
+
+basket.products =  productOrdered;
+modal.render({content: basket.render()})
+})*/
 
 
 
