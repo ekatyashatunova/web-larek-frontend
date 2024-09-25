@@ -105,8 +105,8 @@ events.on('product:open', ((data: {card: ProductCard}) => {
     })
 
 //Клик по кнопке "В корзину"
-events.on('product:add', (data: {product: ProductCard}) => {
-    const { product } = data;
+events.on('product:add', (product: ProductCard) => {
+    /*const { product } = data;*/
     basketData.addProduct(product)
 })
 
