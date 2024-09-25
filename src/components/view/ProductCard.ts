@@ -52,7 +52,7 @@ this.container.addEventListener('click', (event) => {
 })
 }
 
-render(productData: Partial<IProductItem>| undefined) {
+render(productData: Partial<IProductItem> | undefined) {
     const {...otherCardData} = productData;
     Object.assign(this, otherCardData);
     return this.container
@@ -144,6 +144,7 @@ set index(index: number) {
         return this.cardId
 
      }
+
 } 
     
     
