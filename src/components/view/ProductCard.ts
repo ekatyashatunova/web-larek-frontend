@@ -14,11 +14,10 @@ export class ProductCard extends Component<IProductItem> {
     protected cardId: string;
     protected cardBasketButton?: HTMLButtonElement;
     protected buttonsDelete?: HTMLButtonElement;
+    protected cardIndex?: HTMLElement;
   
     //Для отключения кнопки если товар бесценный
     protected buttonDisabled: boolean;
-
-    protected _isInBasket: boolean;
 
     constructor(protected container: HTMLElement, protected events: IEvents) {
         super(container);
@@ -30,6 +29,7 @@ export class ProductCard extends Component<IProductItem> {
         this.cardDescription = this.container.querySelector('.card__text');
         this.cardBasketButton = this.container.querySelector('.button.card__button');
         this.buttonsDelete = this.container.querySelector('.basket__item-delete');
+        this.cardIndex = this.container.querySelector('.basket__item-index')
 
         if (this.cardBasketButton) {
         this.cardBasketButton.addEventListener('click', (event) => {
@@ -108,10 +108,15 @@ set image(image: string) {
     }
 }
 
-//Проверка если товар в корзине - меняем текст кнопки 'Удалить из корзины'
+//Меняем текст кнопки В зависимости от ситуации с 'Удалить из корзины' на "В корзину"
 set updateButtonBasket(value: boolean) {
-    this.cardBasketButton.textContent = value ? 'Удалить из корзины' : 'В корзину'
-    console.log(value)
+    if (!value) {
+        this.cardBasketButton.textContent = 'В корзину';
+        this.cardBasketButton.disabled = false;
+    } else {
+        this.cardBasketButton.textContent = 'Удалить из корзины';
+        this.cardBasketButton.disabled = true;
+    }
 }
 
 
@@ -129,6 +134,10 @@ set price(price: number | null) {
     if(this.cardBasketButton) {
         this.cardBasketButton.disabled = this.buttonDisabled;
     }
+}
+
+set index(index: number) {
+    this.cardIndex.textContent = index.toString();
 }
 
      get id() {
