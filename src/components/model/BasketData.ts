@@ -21,12 +21,12 @@ export class BasketData implements IBasketData {
 
     addProduct(product: IProductItem) {
         this._products = [...this._products, product]
-        /*this.events.emit('basket:changed') */  
+        this.events.emit('basket:changed'); 
     }
 
     deleteProduct(product: IProductItem) {
         this._products = this._products.filter((data) => data.id === product.id);
-        /*this.events.emit('basket:changed') */
+        this.events.emit('basket:changed');
     }
 
     checkBasket(id: string): boolean {
@@ -34,13 +34,14 @@ export class BasketData implements IBasketData {
     }
 
     getTotalPrice(): number {
-        return this._products.reduce((sum, item) => sum + item.price, 0);
-    
+        return this._products.reduce((sum, product) => sum + product.price, 0);
     }
+
     getProductsCounter() {
         return this._products.length
         
     }
+
     clearBasket(): void {
         this._products = []
     }
