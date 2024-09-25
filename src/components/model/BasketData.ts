@@ -20,18 +20,9 @@ export class BasketData implements IBasketData {
     }
 
     addProduct(product: IProductItem) {
-        /*console.log(product);*/
         this._products = [...this._products, product]
-        this.events.emit('basket:changed'); 
-        /*console.log(this._products)*/
+        this.events.emit('basket:add'); 
     }
-
-    /*deleteProduct(productId: IProductItem) {
-const productRemove = this._products.find((product) => product.id === productId)
-if(productRemove) {
-
-}
-    }*/
 
     deleteProduct(product: IProductItem) {
         this._products = this._products.filter((data) => data.id !== product.id);
