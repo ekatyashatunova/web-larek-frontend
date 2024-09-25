@@ -84,8 +84,8 @@ events.on('product:open', ((data: {card: ProductCard}) => {
 
     const productModal = catalog.getProduct(card.id);   
     const cardPreview = new ProductCard(cloneTemplate(cardPreviewTemplate), events);
-    const productInBasket = basketData.checkBasket(card.id);
-    cardPreview.updateButtonBasket = productInBasket;
+    /*const productInBasket = basketData.checkBasket(card.id);
+    cardPreview.updateButtonBasket = productInBasket;*/
     modal.render({content: cardPreview.render(productModal)});
     
 }))
@@ -96,18 +96,24 @@ events.on('product:open', ((data: {card: ProductCard}) => {
         const cardBasket = new ProductCard(cloneTemplate(basketCardTemplate), events);
         cardBasket.index = index + 1;
         /*page.counterBasket = basketData.getProductsCounter();*/
+       
         return cardBasket.render(product)
+       
     })
     
     basket.products =  productOrdered;
-    basket.total = basketData.getTotalPrice();
+    /*basket.total = basketData.getTotalPrice();*/
+   
     modal.render({content: basket.render()})
+    
     })
 
 //Клик по кнопке "В корзину"
-events.on('product:add', (product: ProductCard) => {
-    /*const { product } = data;*/
-    basketData.addProduct(product)
+events.on('product:add', (data: {product: ProductCard}) => {
+    const { product } = data;
+    
+     basketData.addProduct(product);
+     console.log(data, {})
 })
 
 events.on('basket:changed', () => {
