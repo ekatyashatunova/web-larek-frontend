@@ -22,7 +22,7 @@ export class Basket extends Component<IBasket> {
         this.basketPrice = this.container.querySelector('.basket__price');
         this.orderButton = this.container.querySelector('.basket__button');
 
-        this.orderButton.addEventListener('submit', () => {
+        this.orderButton.addEventListener('click', () => {
             this.events.emit('form:open', {card: this})    
         })
 
