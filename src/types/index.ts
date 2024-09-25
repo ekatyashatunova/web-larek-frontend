@@ -5,6 +5,7 @@ export interface IProductItem {
     title: string,
     description: string,
     price: number | null,
+    index?: number
    
 }
 
