@@ -65,33 +65,6 @@ promise.then((data) => {
     console.error(err)
  })
 
-/*const testCard = [
-    {
-        "id": "854cef69-976d-4c2a-a18c-2aa45046c390",
-        "description": "Если планируете решать задачи в тренажёре, берите два.",
-        "image": "/5_Dots.svg",
-        "title": "+1 час в сутках",
-        "category": "софт-скил",
-        "price": 750
-    },
-    {
-        "id": "c101ab44-ed99-4a54-990d-47aa2bb4e7d9",
-        "description": "Лизните этот леденец, чтобы мгновенно запоминать и узнавать любой цветовой код CSS.",
-        "image": "/Shell.svg",
-        "title": "HEX-леденец",
-        "category": "другое",
-        "price": 1450
-    },
-    {
-        "id": "412bcf81-7e75-4e70-bdb9-d3c73c9803b7",
-        "description": "Откройте эти куки, чтобы узнать, какой фреймворк вы должны изучить дальше.",
-        "image": "/Soft_Flower.svg",
-        "title": "Фреймворк куки судьбы",
-        "category": "дополнительное",
-        "price": 2500
-    },
-]*/
-
  /*const testSection = document.querySelector('.gallery')*/
  const catalogCards = new Page(document.querySelector('.gallery'), events);
 
@@ -111,63 +84,45 @@ events.on('product:open', ((data: {card: ProductCard}) => {
 
     const productModal = catalog.getProduct(card.id);   
     const cardPreview = new ProductCard(cloneTemplate(cardPreviewTemplate), events);
-
+    const productInBasket = basketData.checkBasket(card.id);
+    cardPreview.updateButtonBasket = productInBasket;
     modal.render({content: cardPreview.render(productModal)});
     
 }))
 
 //Клик по кнопке корзина на главной странице
    events.on('basket:open', () => {
-    basket.products = basketData.getAllProducts().map((product) => {
-        const cardBasket = new ProductCard(cloneTemplate(basketTemplate), events);
-       return cardBasket.render(product) ;
-      
+    const productOrdered = basketData.getAllProducts().map((product, index) => {
+        const cardBasket = new ProductCard(cloneTemplate(basketCardTemplate), events);
+        cardBasket.index = index + 1;
+        /*page.counterBasket = basketData.getProductsCounter();*/
+        return cardBasket.render(product)
     })
-    const basketTotalPrice = basketData.getTotalPrice();
-    basket._basketPrice = basketTotalPrice;
- 
-    modal.render({content: basket.render()});
-   
-      
+    
+    basket.products =  productOrdered;
+    basket.total = basketData.getTotalPrice();
+    modal.render({content: basket.render()})
     })
 
 //Клик по кнопке "В корзину"
-/*events.on('product:add', ((data:{card: ProductCard}) => {
-    const { card } = data;
-    const cardInBasket = basketData.checkBasket(card.id);
-    const cardAdd = new ProductCard(cloneTemplate(basketCardTemplate), events);
-    cardAdd._checkBasket = cardInBasket;
-    modal.render({content: cardAdd.render(cardAdd)}); //рендерим карточку с измененным текстом кнопки
-}))*/
+events.on('product:add', (data: {product: ProductCard}) => {
+    const { product } = data;
+    basketData.addProduct(product)
+})
 
-
-
-//Клик по кнопке "В корзину"
-events.on('product:add', (product: ProductCard) => {
-   basketData.addProduct(product);
-   const productInBasket = basketData.checkBasket(product.id);
-   console.log(basketData.checkBasket(product.id))
-    const cardAdd = new ProductCard(cloneTemplate(basketCardTemplate), events);
-    cardAdd.updateButtonBasket = productInBasket;
-    modal.render({content: product.render(cardAdd)});
-
-    modal.close();
+events.on('basket:changed', () => {
     page.counterBasket = basketData.getProductsCounter();
+    modal.close();
+})
 
+//Удалить товар из корзины
+events.on('product:delete', (product: ProductCard) => {
+basketData.deleteProduct(product);
 })
 
 
+
 //Клик по кнопке "Оформить"
-
-
-//Удалить товар из корзины
-/*events.on('product:delete', (product: ProductCard) => {
-    
-    const deleteProduct = catalog.getProduct(product.id);
-    basketData.deleteProduct(deleteProduct);
-
-})*/
-
 
 //Клип по кнопке "Далее" в форме с данными покупателя
 
