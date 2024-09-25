@@ -22,11 +22,11 @@ export class Basket extends Component<IBasket> {
         this.basketPrice = this.container.querySelector('.basket__price');
         this.orderButton = this.container.querySelector('.basket__button');
 
-        this.orderButton.addEventListener('click', () => {
+        this.orderButton.addEventListener('submit', () => {
             this.events.emit('form:open', {card: this})    
         })
 
-        this.products = []
+        /*this.products = []*/
 }
 
 set products(products: HTMLElement[]) {
@@ -48,4 +48,5 @@ set productIndex(productIndex: number) {
 set total(total: number) {
     this.basketPrice.textContent = total.toString() + ' синапсов';
 }
+
 }
