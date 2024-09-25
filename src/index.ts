@@ -14,6 +14,7 @@ import {Page} from './components/view/Page';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { Basket } from './components/view/Basket';
 import { Modal } from './components/view/Modal';
+import { Form } from './components/view/Form';
 
 const events = new EventEmitter();
 const userData = new UserData(events);
@@ -99,19 +100,18 @@ events.on('product:open', ((data: {card: ProductCard}) => {
     })
     
     basket.products =  productOrdered;
-    /*basket.total = basketData.getTotalPrice();*/
+    basket.total = basketData.getTotalPrice();
    
     modal.render({content: basket.render()})
     
     })
 
 //Клик по кнопке "В корзину"
-events.on('product:add', (data: {product: ProductCard}) => {
-    const { product } = data;
-    
-    /*const cardAdd = catalog.getProduct(product.id); */
-     basketData.addProduct(product);
-     console.log(data, {})
+events.on('product:add', (data: {card: ProductCard}) => {
+    const { card } = data;
+    const cardAdd = catalog.getProduct(card.id);
+     basketData.addProduct(cardAdd);
+     console.log(basketData.getAllProducts(), {})
 })
 
 events.on('basket:changed', () => {
@@ -120,10 +120,10 @@ events.on('basket:changed', () => {
 })
 
 //Удалить товар из корзины
-/*events.on('product:delete', (data: {product: ProductCard}) => {
+/*events.on('product:delete', (card: ProductCard) => {
 const { product } = data;
 const cardDelete = catalog.getProduct(card.id);
-basketData.deleteProduct(product);
+basketData.deleteProduct(card);
 })
 
 events.on('basket:delete', () => {
@@ -140,6 +140,10 @@ modal.render({content: basket.render()})
 
 
 //Клик по кнопке "Оформить"
+events.on('form:open', () => {
+    const form = new Form(cloneTemplate(paymentFormTemplate), events);
+    modal.render({content: form.render() });
+})
 
 //Клип по кнопке "Далее" в форме с данными покупателя
 
