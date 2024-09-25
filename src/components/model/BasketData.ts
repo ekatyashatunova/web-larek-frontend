@@ -20,8 +20,10 @@ export class BasketData implements IBasketData {
     }
 
     addProduct(product: IProductItem) {
+        console.log(product);
         this._products = [...this._products, product]
         this.events.emit('basket:changed'); 
+        console.log(this._products)
     }
 
     deleteProduct(product: IProductItem) {
