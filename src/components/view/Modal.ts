@@ -29,7 +29,7 @@ export class Modal extends Component<IModal> {
         open() {
           this.container.classList.add('modal_active');
           document.addEventListener("keyup", this.handleEscUp);
-          this.events.emit('modal:open');
+          /*this.events.emit('modal:open');*/
         }
         
         close() {
