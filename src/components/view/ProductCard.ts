@@ -61,14 +61,10 @@ set id(id) {
     this.cardId = id;
 }
 
-set category(category: string) {
+   set category(category: string) { 
     if (this.cardCategory) {
-        this.cardCategory.classList.remove('card__category_soft', 'card__category_additional', 'card__category_other', 'card__category_button', 'card__category_hard');
-    }
     
-    this.cardCategory.textContent = category;
-    
-    switch (category) {
+   switch (category) {
         case 'софт-скил':
             this.cardCategory.classList.add('card__category_soft');
             break;
@@ -89,6 +85,7 @@ set category(category: string) {
                                 break;
                             }
                         }
+                    }
                    
 set title(title: string) {
     if (this.cardTitle) {
