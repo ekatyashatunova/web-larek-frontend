@@ -5,17 +5,30 @@ import {TUserContacts} from '../../types';
 
 //Класс представления форма с контактами (телефон, эл.почта)
 export class ContactsForm extends Form<TUserContacts> {
-   constructor(container: HTMLElement, events: IEvents) {
-    super(container, events);
-   }
+    protected phone: HTMLInputElement;
+    protected email: HTMLInputElement;
+    /*protected buttonSubmit: HTMLButtonElement;*/
+    
+    constructor(container: HTMLFormElement, events: IEvents) {
+        super(container, events);
 
-  /* set email(value: string) {
-    document.querySelector('[name="email"]').value = value;
-}
+        this.phone = this.container.querySelector('input[name=phone]');
+        this.email = this.container.querySelector('input[name=email]');
+        /*this.buttonSubmit = this.container.querySelector('button') as HTMLButtonElement;
 
-set phone(value: string) {
+        this.buttonSubmit.addEventListener('click', () => {
+            this.events.emit('contactsForm:open');*/
+    };
+        
+
+
+   
+   set _phone(value: string) {
     (this.container.elements.namedItem('phone') as HTMLInputElement).value = value;
 }
-   */ 
+
+set _email(value: string) {
+    (this.container.elements.namedItem('email') as HTMLInputElement).value = value;
+}
 
 }
