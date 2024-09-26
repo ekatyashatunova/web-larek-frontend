@@ -14,8 +14,4 @@ export class AppApi {
    postOrder(data: IOrderData): Promise<IResponseOrder> {
     return this._baseApi.post<IResponseOrder>(`/order`, data, `POST`).then((res:IResponseOrder ) => res)
    }
-
-    /*setProducts(cards: IProductItem[]): Promise<IProductItem[]> {
-        return this._baseApi.post<IProductItem[]>(`/product`, cards, `POST`).then((res:IProductItem[]) => res)
-    }*/
 }
