@@ -40,12 +40,14 @@ export interface IBasketData {
 export interface IUserData {
     getUserOrder(): TUserOrder; 
     setUserOrder(userData: IUser): void;
-    /*checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean;*/
+    validationPaymentForm(data: Record<keyof TUserOrder, string>): true | string;
+    validationContactsForm(data: Record<keyof TUserContacts, string>): boolean;
 }
 
 export type TUserOrder = Pick<IUser, 'payment' | 'address'>;
 export type TUserContacts = Pick<IUser, 'email' | 'phone'>;
-export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
+export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>;
+
 
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
@@ -54,6 +56,8 @@ export interface IApi {
     get<T>(uri: string): Promise<T>;
     post<T>(uri: string, data: object, method: ApiPostMethods): Promise<T>;
 }
+
+export type FormErrors = Partial<Record<keyof IUser, string>>;
 
 export interface IOrderData {
     payment: string,
