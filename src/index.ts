@@ -1,7 +1,5 @@
-import { IProductItem } from './types/index';
-
 import './scss/styles.scss';
-import {EventEmitter, IEvents} from '../src/components/base/events';
+import {EventEmitter} from '../src/components/base/events';
 import {UserData} from './components/model/UserData';
 import {BasketData} from './components/model/BasketData';
 import {Catalog} from './components/model/Catalog';
@@ -14,24 +12,18 @@ import {Page} from './components/view/Page';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { Basket } from './components/view/Basket';
 import { Modal } from './components/view/Modal';
-import { Form } from './components/view/Form';
+import { PaymentForm } from './components/view/PaymentForm';
+import { TUserOrder } from './types/index'; 
+import { TUserContacts } from './types/index';
+import { ContactsForm } from './components/view/ContactsForm';
+import { SuccessPay } from './components/view/SuccessPay';
+
 
 const events = new EventEmitter();
 const userData = new UserData(events);
 
-/*const testUserData = {
-    "payment": "credit",
-    "email": "test@test.ru",
-    "phone": "+71234567890",
-    "address": "Spb Vosstania 1"
-}
-
-userData.setUserOrder(testUserData);
-console.log(userData.getUserOrder());
-/*console.log(userData.checkValidationOrder(testUserData))*/
-
 const baseApi: IApi = new Api(API_URL, settings);
-const api = new AppApi(baseApi)
+const api = new AppApi(baseApi);
 
 const basketData = new BasketData(events);
 basketData.products = [];
@@ -50,7 +42,8 @@ const successPayTemplate = ensureElement<HTMLTemplateElement>('#success')
 const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
 const basket = new Basket(cloneTemplate(basketTemplate), events);
 const page = new Page(document.body, events);
-
+const order = new PaymentForm(cloneTemplate(paymentFormTemplate), events);
+const contacts = new ContactsForm(cloneTemplate(contactsFormTemplate), events);
           
      
 events.onAll((event) => {
@@ -66,7 +59,6 @@ promise.then((data) => {
     console.error(err)
  })
 
- /*const testSection = document.querySelector('.gallery')*/
  const catalogCards = new Page(document.querySelector('.gallery'), events);
 
  //Загрузка данных товаров карточек
@@ -139,18 +131,82 @@ page.counterBasket = basketData.getProductsCounter();
 modal.render({content: basket.render()})
 })
 
-
-
 //Клик по кнопке "Оформить"
 events.on('form:open', () => {
-    const form = new Form(cloneTemplate(paymentFormTemplate), events);
-    modal.render({content: form.render() });
+    modal.render({
+        content: order.render({
+            address: '',
+            payment: '',
+            valid: false,
+            errors: []
+        })
+    });
+});
+
+// Изменилось состояние валидации формы
+events.on('formErrors:change', (errors: Partial<TUserOrder>) => {
+    const {payment, address} = errors;
+    order.valid = !payment && !address;
+    order.errors = Object.values({payment, address}).filter(i => !!i).join('; ');
+});
+
+// Изменилось одно из полей
+/*events.on(/^order\..*:change/, (data: { field: keyof TUserOrder, value: string }) => {
+    userData.setPaymentForm(data.field, data.value);
+});*/
+
+//Клик по кнопке способа оплаты
+events.on('payment:select', (data: {payment: string}) => {
+    order._payment = data.payment;
 })
 
 //Клип по кнопке "Далее" в форме с данными покупателя
+events.on('order:submit', () => {
+    modal.render({
+        content: contacts.render({
+            phone: '',
+            email: '',
+            valid: false,
+            errors: []
+        })
+    });
+});
+
+// Изменилось состояние валидации формы
+events.on('formErrors:change', (errors: Partial<TUserContacts>) => {
+    const { phone, email } = errors;
+    order.valid = !phone && !email;
+    order.errors = Object.values({phone, email}).filter(i => !!i).join('; ');
+});
+
+// Изменилось одно из полей
+events.on(/^contacts\..*:change/, (data: { field: keyof TUserContacts, value: string }) => {
+    userData.setContactsForm(data.field, data.value);
+});
+
 
 
 //Клик по кнопке "Оплатить" в форме с данными покупателя
+/*events.on('contacts:submit', () => {
+    api.postOrder(userData.)
+    .then((result) => {
+            const success = new SuccessPay(cloneTemplate(successPayTemplate), {
+                onClick: () => {
+                    modal.close();
+                    appData.clearBasket();
+                    events.emit('auction:changed');
+                }
+            });
+
+            modal.render({
+                content: success.render({})
+            });
+        })
+        .catch(err => {
+            console.error(err);
+        });
+});*/
+
 
 
 
