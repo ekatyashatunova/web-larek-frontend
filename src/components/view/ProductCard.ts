@@ -119,7 +119,6 @@ set updateButtonBasket(value: boolean) {
 
 set price(price: number | null) {
 
-
    if (price === null) {
         this.cardPrice.textContent = 'Бесценно';
         this.buttonDisabled = true;
