@@ -14,7 +14,7 @@ export class Catalog implements ICatalog {
     
     setProduct(items: IProductItem[]) {
         this.products =  items;
-        this.events.emit('products:changed');
+        /*this.events.emit('products:changed');*/
     }
 
     getProducts(): IProductItem[] {
