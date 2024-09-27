@@ -37,9 +37,9 @@ set phone(phone:string) {
     setPaymentForm(field: keyof TUserOrder, value: string) {
         this[field] = value;
 
-        if (typeof this.validationPaymentForm()  === 'string') {
-            this.events.emit('Form: error', this.formErrors);
-		} else {
+        if (typeof this.validationPaymentForm()/*  === 'string'*/) {
+            /*this.events.emit('Form: error', this.formErrors);
+		} else {*/
             this.events.emit('Form: valid')
         }
     }
@@ -54,7 +54,7 @@ set phone(phone:string) {
         if(!this.payment) {
             errors.payment = 'Выберите способ оплаты';
          }
-       
+
          this.events.emit('formErrors:change', this.formErrors);
          return Object.keys(errors).length === 0;
     }
@@ -63,8 +63,8 @@ set phone(phone:string) {
         this[field] = value;
 
         if(!this.validationContactsForm()) {
-            this.events.emit('Form: error', this.formErrors);
-		} else {
+            /*this.events.emit('Form: error', this.formErrors);
+		} else {*/
             this.events.emit('Form: valid')
         }
     }
@@ -77,7 +77,7 @@ set phone(phone:string) {
         if (!this.phone) {
             errors.phone = 'Необходимо указать телефон';
         }
-
+       
         this.events.emit('formErrors:change', this.formErrors);
         return Object.keys(errors).length === 0;
     }
