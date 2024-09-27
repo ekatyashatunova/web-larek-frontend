@@ -76,12 +76,13 @@ events.on('productsCard:loaded', () => {
 events.on('product:open', ((data: {card: ProductCard}) => {
     const { card } = data;
 
-    const productModal = catalog.getProduct(card.id);   
+    const productOpen = catalog.getProduct(card.id);   
     const cardPreview = new ProductCard(cloneTemplate(cardPreviewTemplate), events);
+
     const productInBasket = basketData.checkBasket(card.id);
     cardPreview.updateButtonBasket = productInBasket;
-    modal.render({content: cardPreview.render(productModal)});
-    
+
+    modal.render({content: cardPreview.render(productOpen)});
 }))
 
 //Клик по кнопке корзина на главной странице
