@@ -126,7 +126,7 @@ events.on('basket:delete', () => {
         return cardBasket.render(product)
 })
 
-basket.products =  productOrdered;
+basket.products = productOrdered;
 basket.total = basketData.getTotalPrice();
 page.counterBasket = basketData.getProductsCounter();
 modal.render({content: basket.render()})
@@ -158,7 +158,7 @@ events.on('formErrors:change', (errors: Partial<TUserOrder>) => {
 
 //Клик по кнопке способа оплаты
 events.on('payment:select', (data: {payment: string}) => {
-    userData.payment = data.payment 
+    userData.setUserOrder 
 })
 
 //Клип по кнопке "Далее" в форме с данными покупателя
@@ -171,7 +171,6 @@ events.on('order:submit', () => {
             errors: []
         })
     });
-   
 });
 
 // Изменилось одно из полей
@@ -188,6 +187,7 @@ events.on('formErrors:change', (errors: Partial<TUserContacts>) => {
 
 //Клик по кнопке "Оплатить" в форме с данными покупателя
 events.on('contacts:submit', () => {
+    userData.clearUserData()
     const orderSuccess = {
         ... userData.getUserOrder(),
         items: basketData.getProductIds(),
@@ -197,8 +197,9 @@ events.on('contacts:submit', () => {
     api.postOrder(orderSuccess)
     .then((result) => {
         basketData.clearBasket();
-        page.counterBasket = basketData.getProductsCounter();
         userData.clearUserData();
+        page.counterBasket = basketData.getProductsCounter();
+        
         success.total = result.total;
             modal.render({
             content: success.render()
