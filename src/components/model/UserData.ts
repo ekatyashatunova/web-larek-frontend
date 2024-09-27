@@ -14,11 +14,18 @@ export class UserData implements IUserData {
         this.events = events;
     }
 
+    setUserOrder(userData: IUser) {
+        this._payment = userData.payment,
+        this._email = userData.email,
+        this._phone = userData.phone,
+        this._payment = userData.payment
+    }
+
     getUserOrder(): IUser {
         return {payment: this._payment, email: this._email, address: this._address, phone: this._phone}
     }
 
-set payment(payment:string) {
+/*set payment(payment:string) {
     this._payment = payment
 }
 
@@ -32,16 +39,11 @@ set email(email:string) {
 
 set phone(phone:string) {
     this._phone = phone
-}
+}*/
 
     setPaymentForm(field: keyof TUserOrder, value: string) {
         this[field] = value;
-
-        if (typeof this.validationPaymentForm()/*  === 'string'*/) {
-            /*this.events.emit('Form: error', this.formErrors);
-		} else {*/
-            this.events.emit('Form: valid')
-        }
+        this.validationPaymentForm();
     }
 
     validationPaymentForm() {
@@ -54,19 +56,14 @@ set phone(phone:string) {
         if(!this.payment) {
             errors.payment = 'Выберите способ оплаты';
          }
-
+        
          this.events.emit('formErrors:change', this.formErrors);
          return Object.keys(errors).length === 0;
     }
 
     setContactsForm(field: keyof TUserContacts, value: string) {
         this[field] = value;
-
-        if(!this.validationContactsForm()) {
-            /*this.events.emit('Form: error', this.formErrors);
-		} else {*/
-            this.events.emit('Form: valid')
-        }
+        this.validationContactsForm();
     }
 
     validationContactsForm() {
@@ -77,7 +74,7 @@ set phone(phone:string) {
         if (!this.phone) {
             errors.phone = 'Необходимо указать телефон';
         }
-       
+    
         this.events.emit('formErrors:change', this.formErrors);
         return Object.keys(errors).length === 0;
     }
