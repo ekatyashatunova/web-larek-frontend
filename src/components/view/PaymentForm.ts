@@ -16,6 +16,7 @@ export class PaymentForm extends Form<TUserOrder> {
         this.address = this.container.querySelector('input[name=address]');
 
         this.paymentCard.addEventListener('click', () => {
+            /*this._payment = 'card';*/
             this.events.emit('payment:select', {payment: 'card'})
         })
 
