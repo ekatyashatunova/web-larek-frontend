@@ -140,25 +140,29 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - getAllProducts(): IProductItem[]- получить массив товаров
 - addProduct(product: IProductItem): void - добавить товар в корзину
 - deleteProduct(product: IProductItem): void; - удалить товар из корзины.
-- checkBasketValidation(id: string): boolean; - проверить есть ли товар с id уже в корзине
-- getTotalPrice(): number; - получить общую стоимость товаров.
-- getProductsCounter(): number; - получить общее количество товаров в корзине.
-- clearBasket(): void; - очистить корзину.
+- checkBasket(id: string): boolean - проверить есть ли товар с id уже в корзине
+- getTotalPrice(): number - получить общую стоимость товаров.
+- getProductsCounter(): number - получить общее количество товаров в корзине.
+- getProductIds() - получить все id товаров 
+- clearBasket(): void - очистить корзину.
 
 #### Класс UserData
 Класс отвечает за хранение и логику работы с данными покупателя.
 Конструктор класса принимает инстант брокера событий.
 В классе есть следующие поля:
-- payment: string - способ оплаты
-- email: string - электронная почта покупателя
-- addres: string - адрес доставки покупателя
-- phone: number - номер телефона покупателя
+- _payment: string - способ оплаты
+- _email: string - электронная почта покупателя
+- _addres: string - адрес доставки покупателя
+- _phone: number - номер телефона покупателя
 - events: IEvents - экземпляр класса `EventEmitter` для инициации событий при изменении данных.
 
 В классе есть следующие методы:
+- сеттеры для сохранения данных из полей класса
 - getUserOrder(): TUserOrder - возвращает данные покупателя
 - setUserOrder(userData: IUser): void - сохраняет данные покупателя
-- checkValidationOrder(data: Record<keyof TUserOrder, string>): boolean - проверяет на валидность адрес доставки.
+- validationContactsForm(): boolean - валидация формы с контактами
+- validationPaymentForm(): boolean - валидация формы с адресом и способом оплаты
+- clearUserData() - очистка данных покупателя
 
 #### Класс Catalog
 Класс отвечает за хранение и логику работы с каталогом товаров на странице.
@@ -193,10 +197,9 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
  - events: IEvents - брокер событий
 
 Методы:
-- render(productData: Partial<IProductItem>): HTMLElement - расширяет родительский метод. Заполняет атрибуты карточки товара данными
+- render(productData: Partial<IProductItem>): HTMLElement - возвращает заполненную данными карточку товара
 - геттер id - возвращает уникальный id карточки товара
 - сеттеры для сохранения данных из полей класса
-
 
 #### Класс Page
 Отвечает за отображение контента на главной странице. В конструктор принимает контейнер, в котором размещаются карточки.
@@ -217,7 +220,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Конструктор создает элементы HTML и добавляет обработчик события для кнопки закрытия.
 
 Поля класса:
-- _closeButton: <HTMLButtonElement>:  - кнопка закрытия модального окна
+- _closeButton: <HTMLButtonElement>  - кнопка закрытия модального окна
 - _content: <HTMLElement> - содержимое модального окна
 - events: IEvents - брокер событий
 
@@ -249,12 +252,11 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - _errors: <HTMLElement> - хранит все элементы для вывода ошибок
 
 Методы:
-- setValid(isValid: boolean): void - изменяет активность кнопки 
-- getInputValue(): Record<string, number> - возвращает объект с данными из полей формы
-- setInputValue(data: Record<string, number>): void - принимает объект с данными для заполнения полей формы
+- set valid(value: boolean) - изменяет активность кнопки 
+- сеттеры для сохранения/установки данных из полей класса
+- onInputChange(field: keyof T, value: string) - метод для заполнения инпутов
+- render(state: Partial<T> & IForm) -
 - handleSubmit - обрабатывает событие отправки формы
-- clearValue - очистка формы
-- get form: <HTMLElement> - геттер для получения элемента формы
 
 #### Класс PaymentForm
 Расширяет класс Form. Отвечает за отображение информации о пользователе на странице. В модальном окне можно выбрать способ оплаты и внести информацию об адресе.   
@@ -267,7 +269,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 
 Методы:
 - click() - выбираем способ оплаты кликом
-- сеттеры для сохранения данных из полей класса
+- сеттеры для сохранения/установки данных из полей класса
 
 #### Класс ContactsForm
 Расширяет класс Form. Отвечает за отображение информации о пользователе на странице. В модальном окне можно внести информацию об электронной почте и номере телефона покупателя.
@@ -276,20 +278,20 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Поля класса:
 - email: <HTMLInputElement> - поле для ввода электронной почты
 - phone: <HTMLInputElement> - поле для ввода номера телефона
-- 
 
+Методы:
+- сеттеры для сохранения данных из полей класса
 
 #### Класс SuccessPay
 Отвечает за отображение модального окна в случае успешной покупки.
 
 Поля класса:
-- title: <HTMLElement>
-- description: <HTMLElement>
-- buttonClose: HTMLButtonElement - кнопка 'За новыми покупками',при нажатии которой происходит событие закрытия
+- _total: <HTMLButtonElement> - отображение общей стоимости покупки
+- buttonSuccessClose: <HTMLButtonElement> - кнопка 'За новыми покупками',при нажатии которой происходит событие закрытия
 
 Методы:
-- handleClose() - обработчик события закрытия окна успешной оплаты, нажав на кнопку 'За новыми покупками'
-- updateDescription() - обновить текст описания модального окна
+- click() - обработчик события закрытия окна успешной оплаты, нажав на кнопку 'За новыми покупками'
+- сеттер для сохранения/установки данных из поля класса
 
 ### Слой коммуникации
 
@@ -298,7 +300,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 
 Методы:
 - getProducts(): Promise<IProductList>  - ответ с сервера с массивом карточек, получаем массив карточек
-- setProducts(cards: IProductItem[]): Promise<IProductItem[]> - 
+- setProducts(cards: IProductItem[]): Promise<IProductItem[]> - отправляет данные на сервер и получает ответ
 
 ## Взаимодействие компонентов
 Код, описывающий взаимодействие представления и данных между собой находится в файле `index.ts`, выполняющем роль презентера.
@@ -308,7 +310,6 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 *Список всех событий, которые могут генерироваться в системе:*\
 *События изменения данных (генерируются классами моделями данных)
 - `productsCard:loaded` - загрузка карточек с сервера
-- `user:changed` - изменение данных покупателя
 
 *События, возникающие при взаимодействии пользователя с интерфейсом (генерируются классами, отвечающими за представление)*
 - `product:open` - открытие модального окна карточки товара
@@ -323,14 +324,10 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - `Form: valid`
 - `order:submit` - событие, генерируемое при нажатии кнопки 'Далее'
 - `contacts:submit` - событие, генерируемое при нажатии кнопки 'Оплатить'
-
-- `address:input` - изменение данных в форме с данными пользователя
-- `order:validation` - событие, сообщающее о необходимости валидации формы с данными пользователя
-
-- `email:input` - изменение данных в форме с данными пользователя
-- `phone:input` - изменение данных в форме с данными пользователя
-- `contacts:validation` - событие, сообщающее о необходимости валидации формы с данными пользователя
-- `order-success__close:button` - событие, генерируемое при нажатии кнопки 'За новыми покупками'
+- `address:change` - изменение адреса в форме с данными пользователя
+- `email:change` - изменение электроннйо почты в форме с данными пользователя
+- `phone:change` - изменение номера телефона в форме с данными пользователя
+- `order:success` - событие, генерируемое при нажатии кнопки 'За новыми покупками'
 
 
 
