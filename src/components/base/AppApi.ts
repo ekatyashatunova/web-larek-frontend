@@ -1,4 +1,4 @@
-import {IApi, IUser, IUserData, IOrderData, IResponseOrder, IProductList} from '../../types';
+import {IApi, IOrderData, IResponseOrder, IProductList} from '../../types';
 
 export class AppApi {
     private _baseApi: IApi;
