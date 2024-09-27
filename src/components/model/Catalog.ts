@@ -5,7 +5,6 @@ import {IEvents} from '../base/events';
 //Модель данных каталога товаров
 export class Catalog implements ICatalog {
     protected products: IProductItem[];
-    protected _preview: string | null;
     protected events: IEvents;
 
     constructor(events: IEvents) {
@@ -14,7 +13,6 @@ export class Catalog implements ICatalog {
     
     setProduct(items: IProductItem[]) {
         this.products =  items;
-        /*this.events.emit('products:changed');*/
     }
 
     getProducts(): IProductItem[] {
