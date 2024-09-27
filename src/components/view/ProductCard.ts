@@ -15,9 +15,6 @@ export class ProductCard extends Component<IProductItem> {
     protected buttonsDelete?: HTMLButtonElement;
     protected cardIndex?: HTMLElement;
     protected valid: boolean;
-  
-    //Для отключения кнопки если товар бесценный
-    /*protected buttonDisabled: boolean;*/
 
     constructor(protected container: HTMLElement, protected events: IEvents) {
         super(container);
