@@ -19,6 +19,7 @@ import { ContactsForm } from './components/view/ContactsForm';
 import { SuccessPay } from './components/view/SuccessPay';
 
 
+
 const events = new EventEmitter();
 const userData = new UserData(events);
 
@@ -36,15 +37,15 @@ const basketCardTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
 const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
 const paymentFormTemplate = ensureElement<HTMLTemplateElement>('#order');
 const contactsFormTemplate = ensureElement<HTMLTemplateElement>('#contacts');
-const successPayTemplate = ensureElement<HTMLTemplateElement>('#success')
+const successPayTemplate = ensureElement<HTMLTemplateElement>('#success');
 
 
 const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
 const basket = new Basket(cloneTemplate(basketTemplate), events);
 const page = new Page(document.body, events);
-const order = new PaymentForm(cloneTemplate(paymentFormTemplate), events);
-const contacts = new ContactsForm(cloneTemplate(contactsFormTemplate), events);
-          
+const orderForm = new PaymentForm(cloneTemplate(paymentFormTemplate), events);
+const contactsForm = new ContactsForm(cloneTemplate(contactsFormTemplate), events);
+const success = new SuccessPay(cloneTemplate(successPayTemplate), events);      
      
 events.onAll((event) => {
     console.log(event.eventName, event.data)
@@ -102,8 +103,7 @@ events.on('product:open', ((data: {card: ProductCard}) => {
 events.on('product:add', (data: {card: ProductCard}) => {
     const { card } = data;
     const cardAdd = catalog.getProduct(card.id);
-     basketData.addProduct(cardAdd);
-     console.log(basketData.getAllProducts(), {})
+    basketData.addProduct(cardAdd);
 })
 
 events.on('basket:add', () => {
@@ -134,7 +134,7 @@ modal.render({content: basket.render()})
 //Клик по кнопке "Оформить"
 events.on('form:open', () => {
     modal.render({
-        content: order.render({
+        content: orderForm.render({
             address: '',
             payment: '',
             valid: false,
@@ -143,40 +143,34 @@ events.on('form:open', () => {
     });
 });
 
+// Изменилось одно из полей
+events.on(/^order\..*:change/, (data: { field: keyof TUserOrder, value: string }) => {
+    userData.setPaymentForm(data.field, data.value);
+});
+
 // Изменилось состояние валидации формы
 events.on('formErrors:change', (errors: Partial<TUserOrder>) => {
     const {payment, address} = errors;
-    order.valid = !payment && !address;
-    order.errors = Object.values({payment, address}).filter(i => !!i).join('; ');
+    orderForm.valid = !payment && !address;
+    orderForm.errors = Object.values({payment, address}).filter(i => !!i).join('; ');
 });
-
-// Изменилось одно из полей
-/*events.on(/^order\..*:change/, (data: { field: keyof TUserOrder, value: string }) => {
-    userData.setPaymentForm(data.field, data.value);
-});*/
 
 //Клик по кнопке способа оплаты
 events.on('payment:select', (data: {payment: string}) => {
-    order._payment = data.payment;
+    userData.payment = data.payment 
 })
 
 //Клип по кнопке "Далее" в форме с данными покупателя
 events.on('order:submit', () => {
     modal.render({
-        content: contacts.render({
+        content: contactsForm.render({
             phone: '',
             email: '',
             valid: false,
             errors: []
         })
     });
-});
-
-// Изменилось состояние валидации формы
-events.on('formErrors:change', (errors: Partial<TUserContacts>) => {
-    const { phone, email } = errors;
-    order.valid = !phone && !email;
-    order.errors = Object.values({phone, email}).filter(i => !!i).join('; ');
+   
 });
 
 // Изменилось одно из полей
@@ -184,32 +178,41 @@ events.on(/^contacts\..*:change/, (data: { field: keyof TUserContacts, value: st
     userData.setContactsForm(data.field, data.value);
 });
 
-
+// Изменилось состояние валидации формы
+events.on('formErrors:change', (errors: Partial<TUserContacts>) => {
+    const { phone, email } = errors;
+    contactsForm.valid = !phone && !email;
+    contactsForm.errors = Object.values({phone, email}).filter(i => !!i).join('; ');
+});
 
 //Клик по кнопке "Оплатить" в форме с данными покупателя
-/*events.on('contacts:submit', () => {
-    api.postOrder(userData.)
+events.on('contacts:submit', () => {
+    const orderSuccess = {
+        ... userData.getUserOrder(),
+        items: basketData.getProductIds(),
+        total: basketData.getTotalPrice()
+    }
+   
+    api.postOrder(orderSuccess)
     .then((result) => {
-            const success = new SuccessPay(cloneTemplate(successPayTemplate), {
-                onClick: () => {
-                    modal.close();
-                    appData.clearBasket();
-                    events.emit('auction:changed');
-                }
-            });
-
+        basketData.clearBasket();
+        page.counterBasket = basketData.getProductsCounter();
+        userData.clearUserData();
+        success.total = result.total;
             modal.render({
-                content: success.render({})
+            content: success.render()
             });
         })
         .catch(err => {
             console.error(err);
         });
-});*/
+    })
 
-
-
-
+//Клик по кнопке За новыми покупками
+events.on('order:success', () => {
+    modal.close()
+   
+})
 
 // Блокируем прокрутку страницы если открыта модалка
 events.on('modal:open', () => {
@@ -219,4 +222,4 @@ events.on('modal:open', () => {
 // ... и разблокируем
 events.on('modal:close', () => {
     page.locked = false;
-});
+})
