@@ -18,13 +18,6 @@ export class UserData implements IUserData {
         return {payment: this._payment, email: this._email, address: this._address, phone: this._phone}
     }
 
-    /*setUserOrder(userData: IUser) {
-        this.payment = userData.payment;
-        this.email = userData.email;
-        this.address = userData.address;
-        this.phone = userData.phone;
-    }*/
-
 set payment(payment:string) {
     this._payment = payment
 }
@@ -101,10 +94,6 @@ set phone(phone:string) {
     }
 
     }
-
-        
-    
-
 
 
 
