@@ -1,4 +1,3 @@
-import {cloneTemplate} from "../../utils/utils";
 import {IEvents } from "../base/events";
 import {IProductItem} from '../../types';
 import {CDN_URL} from "../../utils/constants";
@@ -143,10 +142,5 @@ set index(index: number) {
 
 } 
     
-    
-
-
-
-
     
 
