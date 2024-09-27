@@ -34,14 +34,12 @@ export interface IBasketData {
     checkBasket(id: string): boolean;
     getTotalPrice(): number;
     getProductsCounter(): number;
+    getProductIds(): string[]; 
     clearBasket(): void;
 }
 
 export interface IUserData {
     getUserOrder(): TUserOrder; 
-    setUserOrder(userData: IUser): void;
-    validationPaymentForm(data: Record<keyof TUserOrder, string>): true | string;
-    validationContactsForm(data: Record<keyof TUserContacts, string>): boolean;
 }
 
 export type TUserOrder = Pick<IUser, 'payment' | 'address'>;
@@ -70,6 +68,6 @@ export interface IOrderData {
 
 export interface IResponseOrder {
     total: number,
-    id: string
+    id: string[]
 }
 
