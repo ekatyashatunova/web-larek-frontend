@@ -44,7 +44,7 @@ set phone(phone:string) {
         }
     }
 
-    validationPaymentForm()/*: string | true*/ {
+    validationPaymentForm() {
         const errors: typeof this.formErrors = {};
 
 		if (!this.address) {
