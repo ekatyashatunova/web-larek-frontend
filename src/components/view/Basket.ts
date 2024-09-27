@@ -5,7 +5,6 @@ import { createElement } from "../../utils/utils";
 interface IBasket {
     products: HTMLElement[],
     total: number,
-    /*productIndex: number*/
 }
 
 //Класс представления корзины с товарами
