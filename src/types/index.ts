@@ -5,8 +5,7 @@ export interface IProductItem {
     title: string,
     description: string,
     price: number | null,
-    index?: number
-   
+    /*index?: number*/
 }
 
 export interface IProductList {
@@ -40,6 +39,8 @@ export interface IBasketData {
 
 export interface IUserData {
     getUserOrder(): TUserOrder; 
+    clearUserData(): void;
+    getErrors(): FormErrors 
 }
 
 export type TUserOrder = Pick<IUser, 'payment' | 'address'>;
