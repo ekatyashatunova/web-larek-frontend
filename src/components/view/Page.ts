@@ -26,7 +26,6 @@ export class Page extends Component<IPage> {
        this.buttonBasket.addEventListener('click', () => {
             this.events.emit('basket:open');
         })
-    
     }
 
     set cardsCatalog(items: HTMLElement[]) {
