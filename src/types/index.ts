@@ -37,9 +37,10 @@ export interface IBasketData {
 }
 
 export interface IUserData {
+    setUserOrder(userData: IUser): void
     getUserOrder(): TUserOrder; 
     clearUserData(): void;
-    getErrors(): FormErrors 
+    getErrors(): FormErrors;
 }
 
 export type TUserOrder = Pick<IUser, 'payment' | 'address'>;
