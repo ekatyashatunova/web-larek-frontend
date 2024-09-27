@@ -12,7 +12,6 @@ export class BasketData implements IBasketData {
 
     set products(products:IProductItem[]) {
         this._products = products;
-        /*this.events.emit('basket:changed')*/
     }   
 
     getAllProducts(): IProductItem[] {
@@ -39,11 +38,14 @@ export class BasketData implements IBasketData {
     }
 
     getProductsCounter() {
-        return this._products.length
-        
+        return this._products.length  
     }
 
-    clearBasket(): void {
+    getProductIds(): string[] {
+        return this._products.map(item => item.id); 
+      }
+      
+    clearBasket() {
         this._products = []
     }
 }
