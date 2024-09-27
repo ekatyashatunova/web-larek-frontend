@@ -14,9 +14,10 @@ export class ProductCard extends Component<IProductItem> {
     protected cardBasketButton?: HTMLButtonElement;
     protected buttonsDelete?: HTMLButtonElement;
     protected cardIndex?: HTMLElement;
+    protected valid: boolean;
   
     //Для отключения кнопки если товар бесценный
-    protected buttonDisabled: boolean;
+    /*protected buttonDisabled: boolean;*/
 
     constructor(protected container: HTMLElement, protected events: IEvents) {
         super(container);
@@ -104,6 +105,25 @@ set image(image: string) {
     }
 }
 
+set price(price: number | null) {
+
+   if (price === null) {
+        this.cardPrice.textContent = 'Бесценно';
+        this.valid = true;
+    } else {
+        this.cardPrice.textContent = price.toString() + ' синапсов';
+        this.valid = false;
+    }
+    
+    if(this.cardBasketButton) {
+        this.cardBasketButton.disabled = this.valid;
+    }
+}
+
+set index(index: number) {
+    this.cardIndex.textContent = index.toString();
+}
+
 //Меняем текст кнопки В зависимости от ситуации с 'Удалить из корзины' на "В корзину"
 set updateButtonBasket(value: boolean) {
     if (!value) {
@@ -115,24 +135,8 @@ set updateButtonBasket(value: boolean) {
     }
 }
 
-
-set price(price: number | null) {
-
-   if (price === null) {
-        this.cardPrice.textContent = 'Бесценно';
-        this.buttonDisabled = true;
-    } else {
-        this.cardPrice.textContent = price.toString() + ' синапсов';
-        this.buttonDisabled = false;
-    }
-    
-    if(this.cardBasketButton) {
-        this.cardBasketButton.disabled = this.buttonDisabled;
-    }
-}
-
-set index(index: number) {
-    this.cardIndex.textContent = index.toString();
+set _valid(value: boolean) {
+    this.cardBasketButton.disabled = !value;
 }
 
      get id() {
