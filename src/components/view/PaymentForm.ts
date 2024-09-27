@@ -2,7 +2,6 @@ import { Form } from './Form';
 import { TUserOrder } from "../../types";
 import { IEvents } from "../base/events";
 
-
 //Класс представления формы с адресом и способом оплаты
 export class PaymentForm extends Form<TUserOrder> {
     protected paymentCard: HTMLButtonElement;
@@ -12,8 +11,8 @@ export class PaymentForm extends Form<TUserOrder> {
     constructor(container: HTMLFormElement, protected events: IEvents) {
         super(container, events);
 
-        this.paymentCash = this.container.cash as HTMLButtonElement; /*querySelector('order__buttons[name=cash]');*/
-        this.paymentCard = this.container.card as HTMLButtonElement; /*querySelector('order__buttons[name=card]');*/ 
+        this.paymentCash = this.container.cash as HTMLButtonElement; 
+        this.paymentCard = this.container.card as HTMLButtonElement; 
         this.address = this.container.querySelector('input[name=address]');
 
         this.paymentCard.addEventListener('click', () => {
