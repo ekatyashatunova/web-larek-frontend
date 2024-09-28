@@ -3,7 +3,7 @@ import { IEvents } from '../base/events';
 
 //Модель данных товаров с корзиной
 export class BasketData implements IBasketData {
-    protected _products: IProductItem[];
+    protected _products: IProductItem[] = [];
     protected events: IEvents;
 
     constructor(events: IEvents) {
