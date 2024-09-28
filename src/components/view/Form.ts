@@ -1,64 +1,56 @@
-import { Component } from "../base/Component";
-import { IEvents } from "../base/events";
-import { ensureElement } from "../../utils/utils";
+import { Component } from '../base/Component';
+import { IEvents } from '../base/events';
+import { ensureElement } from '../../utils/utils';
 
 interface IForm {
-    valid: boolean;
-    errors: string[];
+	valid: boolean;
+	errors: string[];
 }
 
 //Класс представления форма с данными покупателя
 export class Form<T> extends Component<IForm & T> {
-    protected submitButton: HTMLButtonElement;
-    protected _errors: HTMLElement;
+	protected submitButton: HTMLButtonElement;
+	protected _errors: HTMLElement;
 
-    constructor(protected container: HTMLFormElement, protected events: IEvents) {
-        super(container);
+	constructor(protected container: HTMLFormElement, protected events: IEvents) {
+		super(container);
 
-        this.submitButton = ensureElement<HTMLButtonElement>('button[type=submit]',this.container);
-        this._errors = ensureElement<HTMLElement>('.form__errors', this.container);
-    
-        this.container.addEventListener('input', (e: Event) => {
-            const target = e.target as HTMLInputElement;
-            const field = target.name as keyof T;
-            const value = target.value;
-            this.onInputChange(field, value);
-        });
-            
-        this.container.addEventListener('submit', (e: Event) => {
-            e.preventDefault();
-            this.events.emit(`${this.container.name}:submit`);
-        });
-    }
+		this.submitButton = ensureElement<HTMLButtonElement>(
+			'button[type=submit]',
+			this.container
+		);
+		this._errors = ensureElement<HTMLElement>('.form__errors', this.container);
 
-    protected onInputChange(field: keyof T, value: string) {
-        this.events.emit(`${this.container.name}.${String(field)}:change`, {
-            field,
-            value
-        });
-    }
+		this.container.addEventListener('input', (e: Event) => {
+			const target = e.target as HTMLInputElement;
+			const field = target.name as keyof T;
+			const value = target.value;
+			this.onInputChange(field, value);
+		});
 
-    set valid(value: boolean) {
-        this.submitButton.disabled = !value;
-    }
+		this.container.addEventListener('submit', (e: Event) => {
+			e.preventDefault();
+			this.events.emit(`${this.container.name}:submit`);
+		});
+	}
 
-    set errors(value: string) {
-        this.setText(this._errors, value);
-    }
+	protected onInputChange(field: keyof T, value: string) {
+		this.events.emit(`${this.container.name}.${String(field)}:change`, {
+			field,
+			value,
+		});
+	}
 
-    render(state: Partial<T & IForm>) {
-        super.render(state);
-        return this.container;
-    }
+	set valid(value: boolean) {
+		this.submitButton.disabled = !value;
+	}
+
+	set errors(value: string) {
+		this.setText(this._errors, value);
+	}
+
+	render(state: Partial<T & IForm>) {
+		super.render(state);
+		return this.container;
+	}
 }
-
-
-       
-    
-
-        
-
-
-        
-
-
