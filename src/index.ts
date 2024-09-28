@@ -18,8 +18,6 @@ import { TUserContacts } from './types/index';
 import { ContactsForm } from './components/view/ContactsForm';
 import { SuccessPay } from './components/view/SuccessPay';
 
-
-
 const events = new EventEmitter();
 const userData = new UserData(events);
 
@@ -27,7 +25,6 @@ const baseApi: IApi = new Api(API_URL, settings);
 const api = new AppApi(baseApi);
 
 const basketData = new BasketData(events);
-basketData.products = [];
 
 const catalog = new Catalog(events);
 
@@ -39,11 +36,10 @@ const paymentFormTemplate = ensureElement<HTMLTemplateElement>('#order');
 const contactsFormTemplate = ensureElement<HTMLTemplateElement>('#contacts');
 const successPayTemplate = ensureElement<HTMLTemplateElement>('#success');
 
-
 const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
 const basket = new Basket(cloneTemplate(basketTemplate), events);
 const page = new Page(document.body, events);
-const orderForm = new PaymentForm(cloneTemplate(paymentFormTemplate), events);
+const paymentForm = new PaymentForm(cloneTemplate(paymentFormTemplate), events);
 const contactsForm = new ContactsForm(cloneTemplate(contactsFormTemplate), events);
 const success = new SuccessPay(cloneTemplate(successPayTemplate), events);      
      
@@ -54,7 +50,6 @@ events.onAll((event) => {
 const promise = api.getProducts();
 promise.then((data) => {
     catalog.setProduct(data.items);
-    events.emit('productsCard:loaded');
 })
 .catch((err) => {
     console.error(err)
@@ -79,10 +74,17 @@ events.on('product:open', ((data: {card: ProductCard}) => {
     const productOpen = catalog.getProduct(card.id);   
     const cardPreview = new ProductCard(cloneTemplate(cardPreviewTemplate), events);
 
-    const productInBasket = basketData.checkBasket(card.id);
-    cardPreview.updateButtonBasket = productInBasket;
+   let isButtonActive = true;
 
-    modal.render({content: cardPreview.render(productOpen)});
+    if(basketData.checkBasket(card.id)) {
+        isButtonActive = false
+    }
+
+   if(productOpen.price < 0) {
+    isButtonActive = false
+   }
+
+    modal.render({content: cardPreview.render({...productOpen, isButtonActive})});
 }))
 
 //Клик по кнопке корзина на главной странице
@@ -135,7 +137,7 @@ modal.render({content: basket.render()})
 //Клик по кнопке "Оформить"
 events.on('form:open', () => {
     modal.render({
-        content: orderForm.render({
+        content: paymentForm.render({
             address: '',
             payment: '',
             valid: false,
@@ -150,16 +152,12 @@ events.on(/^order\..*:change/, (data: { field: keyof TUserOrder, value: string }
 });
 
 // Изменилось состояние валидации формы
-events.on('formErrors:change', (errors: Partial<TUserOrder>) => {
+events.on('formPaymentErrors:change', (errors: Partial<TUserOrder>) => {
     const {payment, address} = errors;
-    orderForm.valid = !payment && !address;
-    orderForm.errors = Object.values({payment, address}).filter(i => !!i).join('; ');
+    paymentForm.valid = !payment && !address;
+    paymentForm.errors = Object.values({payment, address}).filter(i => !!i).join('; ');
+    paymentForm.render({payment: userData.getUserOrder().payment})
 });
-
-//Клик по кнопке способа оплаты
-events.on('payment:select', (data: {payment: string}) => {
-    userData.setUserOrder 
-})
 
 //Клип по кнопке "Далее" в форме с данными покупателя
 events.on('order:submit', () => {
@@ -187,7 +185,6 @@ events.on('formErrors:change', (errors: Partial<TUserContacts>) => {
 
 //Клик по кнопке "Оплатить" в форме с данными покупателя
 events.on('contacts:submit', () => {
-    userData.clearUserData()
     const orderSuccess = {
         ... userData.getUserOrder(),
         items: basketData.getProductIds(),
