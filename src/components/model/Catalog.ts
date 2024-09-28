@@ -13,6 +13,7 @@ export class Catalog implements ICatalog {
     
     setProduct(items: IProductItem[]) {
         this.products =  items;
+        this.events.emit('productsCard:loaded');
     }
 
     getProducts(): IProductItem[] {
