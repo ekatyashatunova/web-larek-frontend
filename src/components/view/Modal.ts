@@ -24,6 +24,13 @@ export class Modal extends Component<IModal> {
 		this.container.addEventListener('click', (event) =>
 			event.stopPropagation()
 		);
+
+		this.container.addEventListener("mousedown", (evt) => {
+			if (evt.target === evt.currentTarget) {
+			  this.close();
+			}
+		  });
+
 		this.handleEscUp = this.handleEscUp.bind(this);
 	}
 
