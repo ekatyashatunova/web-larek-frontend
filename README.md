@@ -150,16 +150,14 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Класс отвечает за хранение и логику работы с данными покупателя.
 Конструктор класса принимает инстант брокера событий.
 В классе есть следующие поля:
-- _payment: string - способ оплаты
-- _email: string - электронная почта покупателя
-- _addres: string - адрес доставки покупателя
-- _phone: number - номер телефона покупателя
+- payment: string - способ оплаты
+- email: string - электронная почта покупателя
+- addres: string - адрес доставки покупателя
+- phone: number - номер телефона покупателя
 - events: IEvents - экземпляр класса `EventEmitter` для инициации событий при изменении данных.
 
 В классе есть следующие методы:
-- сеттеры для сохранения данных из полей класса
 - getUserOrder(): TUserOrder - возвращает данные покупателя
-- setUserOrder(userData: IUser): void - сохраняет данные покупателя
 - validationContactsForm(): boolean - валидация формы с контактами
 - validationPaymentForm(): boolean - валидация формы с адресом и способом оплаты
 - clearUserData() - очистка данных покупателя
@@ -197,7 +195,6 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
  - events: IEvents - брокер событий
 
 Методы:
-- render(productData: Partial<IProductItem>): HTMLElement - возвращает заполненную данными карточку товара
 - геттер id - возвращает уникальный id карточки товара
 - сеттеры для сохранения данных из полей класса
 
@@ -229,7 +226,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - close() - закрывает модальное окно
 - setContent(): <HTMLElement> - устанавливает контент модального окна
 - handleEscUp - закрытие подального окна по клавише "ESC"
-- render(data: IModal): <HTMLElement> - 
+- render(data: IModal): <HTMLElement> - возвращает заполенное данными модальное окно
 
 #### Класс Basket
 Отвечает за отображение корзины товаров.
@@ -255,8 +252,8 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - set valid(value: boolean) - изменяет активность кнопки 
 - сеттеры для сохранения/установки данных из полей класса
 - onInputChange(field: keyof T, value: string) - метод для заполнения инпутов
-- render(state: Partial<T> & IForm) -
-- handleSubmit - обрабатывает событие отправки формы
+- render(state: Partial<T> & IForm) - возвращает заполненную форму
+- submit - обрабатывает событие отправки формы
 
 #### Класс PaymentForm
 Расширяет класс Form. Отвечает за отображение информации о пользователе на странице. В модальном окне можно выбрать способ оплаты и внести информацию об адресе.   
@@ -265,7 +262,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Поля класса:
 - paymentCard: <HTMLButtonElement> - кнопка способа оплаты картой
 - paymentCash: <HTMLButtonElement> - кнопка способа оплаты при получении
-- address: <HTMLInputElement> - поле для ввода адреса
+- addressInput: <HTMLInputElement> - поле для ввода адреса
 
 Методы:
 - click() - выбираем способ оплаты кликом
@@ -283,7 +280,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - сеттеры для сохранения данных из полей класса
 
 #### Класс SuccessPay
-Отвечает за отображение модального окна в случае успешной покупки.
+Расширяет класс Form. Отвечает за отображение модального окна в случае успешной покупки.
 
 Поля класса:
 - _total: <HTMLButtonElement> - отображение общей стоимости покупки
@@ -320,8 +317,8 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 - `basket:delete` - изменения в корзине после удаления товара из нее
 - `form:open` - при нажатии на кнопку 'Оформить' открывается форма с данными пользователя
 - `payment:select` - выбрать способ оплаты
-- `formErrors:change` - 
-- `Form: valid`
+- `formErrors:change` - событие, которое генерируется если в поле формы с контактами есть ошибка
+- `formPaymentErrors:change` - событие, которое генерируется если в поле формы с оплатой есть ошибка
 - `order:submit` - событие, генерируемое при нажатии кнопки 'Далее'
 - `contacts:submit` - событие, генерируемое при нажатии кнопки 'Оплатить'
 - `address:change` - изменение адреса в форме с данными пользователя
