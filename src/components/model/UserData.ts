@@ -1,6 +1,5 @@
 import {
 	IUser,
-	IUserData,
 	TUserOrder,
 	TUserContacts,
 	FormErrors,
