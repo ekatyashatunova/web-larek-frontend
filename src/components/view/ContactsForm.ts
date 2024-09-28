@@ -23,8 +23,4 @@ export class ContactsForm extends Form<TUserContacts> {
 		(this.container.elements.namedItem('email') as HTMLInputElement).value =
 			value;
 	}
-
-	clearContactsForm() {
-		(this.email = ''), (this.phone = '');
-	}
 }
