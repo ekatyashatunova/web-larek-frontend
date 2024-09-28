@@ -37,7 +37,6 @@ export interface IBasketData {
 }
 
 export interface IUserData {
-    setUserOrder(userData: IUser): void
     getUserOrder(): TUserOrder; 
     clearUserData(): void;
     getErrors(): FormErrors;
