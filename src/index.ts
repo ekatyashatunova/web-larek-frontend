@@ -80,7 +80,7 @@ events.on('product:open', ((data: {card: ProductCard}) => {
         isButtonActive = false
     }
 
-   if(productOpen.price < 0) {
+   if(productOpen.price <= 0) {
     isButtonActive = false
    }
 
