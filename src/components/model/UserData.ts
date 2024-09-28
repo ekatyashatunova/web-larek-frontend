@@ -2,11 +2,11 @@ import {IUser, IUserData, TUserOrder, TUserContacts, FormErrors} from '../../typ
 import {IEvents} from '../base/events';
 
 //Модель данных покупателя
-export class UserData implements IUserData {
-    protected _payment: string;
-    protected _email: string;
-    protected _address: string;
-    protected _phone: string ;
+export class UserData /*implements IUserData*/ {
+    protected payment: string;
+    protected email: string;
+    protected address: string;
+    protected phone: string ;
     protected events: IEvents 
     formErrors: FormErrors = {};
 
@@ -14,32 +14,17 @@ export class UserData implements IUserData {
         this.events = events;
     }
 
-    setUserOrder(userData: IUser) {
-        this._payment = userData.payment,
-        this._email = userData.email,
-        this._phone = userData.phone,
-        this._payment = userData.payment
-    }
+    /*setUserOrder(userData: IUser) {
+        this.payment = userData.payment,
+        this.email = userData.email,
+        this.phone = userData.phone,
+        this.payment = userData.payment,
+        this.address = userData.address
+    }*/
 
     getUserOrder(): IUser {
-        return {payment: this._payment, email: this._email, address: this._address, phone: this._phone}
+        return {payment: this.payment, email: this.email, address: this.address, phone: this.phone}
     }
-
-/*set payment(payment:string) {
-    this._payment = payment
-}
-
-set address(address:string) {
-    this._address = address
-}
-
-set email(email:string) {
-    this._email = email
-}
-
-set phone(phone:string) {
-    this._phone = phone
-}*/
 
     setPaymentForm(field: keyof TUserOrder, value: string) {
         this[field] = value;
@@ -57,7 +42,7 @@ set phone(phone:string) {
             errors.payment = 'Выберите способ оплаты';
          }
         
-         this.events.emit('formErrors:change', this.formErrors);
+         this.events.emit('formPaymentErrors:change', errors);
          return Object.keys(errors).length === 0;
     }
 
@@ -75,7 +60,7 @@ set phone(phone:string) {
             errors.phone = 'Необходимо указать телефон';
         }
     
-        this.events.emit('formErrors:change', this.formErrors);
+        this.events.emit('formErrors:change', errors);
         return Object.keys(errors).length === 0;
     }
 
