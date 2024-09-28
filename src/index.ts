@@ -208,6 +208,7 @@ events.on('formErrors:change', (errors: Partial<TUserContacts>) => {
 	contactsForm.errors = Object.values({ phone, email })
 		.filter((i) => !!i)
 		.join('; ');
+        contactsForm.clearContactsForm()
 });
 
 //Клик по кнопке "Оплатить" в форме с данными покупателя
