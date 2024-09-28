@@ -8,7 +8,7 @@ interface IForm {
 }
 
 //Класс представления форма с данными покупателя
-export class Form<T> extends Component<IForm> {
+export class Form<T> extends Component<IForm & T> {
     protected submitButton: HTMLButtonElement;
     protected _errors: HTMLElement;
 
@@ -46,10 +46,8 @@ export class Form<T> extends Component<IForm> {
         this.setText(this._errors, value);
     }
 
-    render(state: Partial<T> & IForm) {
-        const {valid, errors, ...inputs} = state;
-        super.render({valid, errors});
-        Object.assign(this, inputs);
+    render(state: Partial<T & IForm>) {
+        super.render(state);
         return this.container;
     }
 }
