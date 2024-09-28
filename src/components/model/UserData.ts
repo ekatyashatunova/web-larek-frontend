@@ -45,7 +45,6 @@ export class UserData {
 		}
 
 		this.events.emit('formPaymentErrors:change', errors);
-		return Object.keys(errors).length === 0;
 	}
 
 	setContactsForm(field: keyof TUserContacts, value: string) {
@@ -63,7 +62,6 @@ export class UserData {
 		}
 
 		this.events.emit('formErrors:change', errors);
-		return Object.keys(errors).length === 0;
 	}
 
 	clearUserData() {
