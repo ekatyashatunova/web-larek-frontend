@@ -224,6 +224,7 @@ export type TBasketOrder = Pick<IProductItem, 'title' | 'price' | 'id'>
 Методы:
 - open() - открывает модальное окно
 - close() - закрывает модальное окно
+- mousedown - закрытие модального окна по клику на оверлей
 - setContent(): <HTMLElement> - устанавливает контент модального окна
 - handleEscUp - закрытие подального окна по клавише "ESC"
 - render(data: IModal): <HTMLElement> - возвращает заполенное данными модальное окно
