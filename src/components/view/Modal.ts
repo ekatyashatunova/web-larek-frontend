@@ -21,15 +21,11 @@ export class Modal extends Component<IModal> {
 		this._content = ensureElement<HTMLElement>('.modal__content', container);
 
 		this._closeButton.addEventListener('click', this.close.bind(this));
-		this.container.addEventListener('click', (event) =>
-			event.stopPropagation()
-		);
-
-		this.container.addEventListener("mousedown", (evt) => {
+		this.container.addEventListener('mousedown', (evt) => {
 			if (evt.target === evt.currentTarget) {
-			  this.close();
+				this.close();
 			}
-		  });
+		});
 
 		this.handleEscUp = this.handleEscUp.bind(this);
 	}
